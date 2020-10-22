@@ -80,8 +80,8 @@
     
 
     <footer class="app-footer">
-        <span><a href="http://www.incanatoit.com/">IncanatoIT</a> &copy; 2017</span>
-        <span class="ml-auto">Desarrollado por <a href="http://www.incanatoit.com/">IncanatoIT</a></span>
+        <span>El Remate &copy; 2020</span>
+        <span class="ml-auto">Desarrollado por C14U & R05H</span>
     </footer>
 </div>
     <!-- Bootstrap and necessary plugins -->
