@@ -51399,7 +51399,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\rodrigoescobar\Documents\RemateApp\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/claudia/Documents/laravel/remate/RemateSys/resources/js/app.js */"./resources/js/app.js");
 
 
 /***/ })
