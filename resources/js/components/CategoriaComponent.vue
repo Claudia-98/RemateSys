@@ -43,7 +43,7 @@
                                         <button type="button" @click="abrirModal('categoria','actualizar',categoria)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <template v-if="categoria.condicion">
+                                        <template v-if="categoria.estado">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarCategoria(categoria.id)">
                                                 <i class="icon-trash"></i>
                                             </button>
@@ -57,7 +57,7 @@
                                     <td v-text="categoria.nombre"></td>
                                     <td v-text="categoria.descripcion"></td>
                                     <td>
-                                        <div v-if="categoria.condicion">
+                                        <div v-if="categoria.estado">
                                             <span class="badge badge-success">Activo</span>
                                         </div>
                                         <div v-else>
