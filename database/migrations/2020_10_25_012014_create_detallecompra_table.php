@@ -23,7 +23,7 @@ class CreateDetallecompraTable extends Migration
             $table->foreign('idcompra')->references('id')->on('compra');
             
             $table->integer('idproducto')->unsigned();
-            $table->foreign('idproducto')->references('id')->on('prodcuto');
+            $table->foreign('idproducto')->references('id')->on('producto');
             $table->timestamps();
         });
     }

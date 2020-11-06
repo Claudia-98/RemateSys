@@ -27,7 +27,7 @@ class CreateDetalleventaTable extends Migration
             $table->foreign('idespacio')->references('id')->on('espacio');
             
             $table->integer('idproducto')->unsigned();
-            $table->foreign('idproducto')->references('id')->on('prodcuto');
+            $table->foreign('idproducto')->references('id')->on('producto');
             $table->timestamps();
         });
     }
