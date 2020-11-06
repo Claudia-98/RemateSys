@@ -245,18 +245,14 @@
                 }); 
             },
             desactivarCategoria(id){
-               swal({
-                title: 'Esta seguro de desactivar esta categoría?',
-                type: 'warning',
+               Swal.fire({
+                title: 'Desactivar categoría',
+                text: "¿Esta seguro de desactivar esta categoría?",
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
+                confirmButtonText: 'Desactivarlo'
                 }).then((result) => {
                 if (result.value) {
                     let me = this;
@@ -265,9 +261,9 @@
                         'id': id
                     }).then(function (response) {
                         me.listarCategoria(1,'','nombre');
-                        swal(
+                        Swal.fire(
                         'Desactivado!',
-                        'El registro ha sido desactivado con éxito.',
+                        'La categoría ha sido desactivada con éxito.',
                         'success'
                         )
                     }).catch(function (error) {
@@ -284,18 +280,14 @@
                 }) 
             },
             activarCategoria(id){
-               swal({
-                title: 'Esta seguro de activar esta categoría?',
-                type: 'warning',
+               Swal.fire({
+                title: 'Desactivar categoría',
+                text: "¿Esta seguro de activar esta categoría?",
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Aceptar!',
-                cancelButtonText: 'Cancelar',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
+                confirmButtonText: 'Activarlo'
                 }).then((result) => {
                 if (result.value) {
                     let me = this;
@@ -304,9 +296,9 @@
                         'id': id
                     }).then(function (response) {
                         me.listarCategoria(1,'','nombre');
-                        swal(
+                        Swal.fire(
                         'Activado!',
-                        'El registro ha sido activado con éxito.',
+                        'La categoría ha sido activada con éxito.',
                         'success'
                         )
                     }).catch(function (error) {
