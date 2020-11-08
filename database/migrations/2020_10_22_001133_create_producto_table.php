@@ -19,6 +19,7 @@ class CreateProductoTable extends Migration
             $table->string('codigo', 8);
             $table->string('alias', 50)->nullable();
             $table->string('descripcion', 100)->nullable();
+            $table->string('foto');
             $table->double('precio_venta');
             $table->double('precio_mayorista')->nullable();
             $table->double('precio_compra')->nullable();
