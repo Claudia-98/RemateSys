@@ -18,7 +18,7 @@ class CreateDesembolsoTable extends Migration
             $table->text('descripcion');
             $table->float('total', 8, 2);
             $table->dateTime('fecha');
-
+            $table->boolean('estado')->default(1);
 
 
             $table->integer('idcaja')->unsigned();

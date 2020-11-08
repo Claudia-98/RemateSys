@@ -16,6 +16,7 @@ class CreateMedidaproductoTable extends Migration
         Schema::create('medidaproducto', function (Blueprint $table) {
             $table->increments('id');
             $table->string('medida',50);
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }

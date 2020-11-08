@@ -39018,13 +39018,13 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("ol", { staticClass: "breadcrumb" }, [
-      _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Home")]),
+      _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Inicio")]),
       _vm._v(" "),
-      _c("li", { staticClass: "breadcrumb-item" }, [
-        _c("a", { attrs: { href: "#" } }, [_vm._v("Admin")])
-      ]),
+      _c("li", { staticClass: "breadcrumb-item" }, [_vm._v("Inventario")]),
       _vm._v(" "),
-      _c("li", { staticClass: "breadcrumb-item active" }, [_vm._v("Dashboard")])
+      _c("li", { staticClass: "breadcrumb-item active" }, [
+        _vm._v("Categorías")
+      ])
     ])
   },
   function() {
