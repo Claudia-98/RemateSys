@@ -16,18 +16,23 @@ class CreateProductoTable extends Migration
         Schema::create('producto', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 100);
+            $table->string('codigo', 8);
             $table->string('alias', 50)->nullable();
             $table->string('descripcion', 100)->nullable();
             $table->double('precio_venta');
             $table->double('precio_mayorista')->nullable();
             $table->double('precio_compra')->nullable();
             // $table->double('notify')->nullable();
+            $table->integer('idpersonas')->unsigned();
+            $table->foreign('idpersonas')->references('id')->on('personas');
 
             $table->integer('idtipo')->unsigned();
             $table->foreign('idtipo')->references('id')->on('tipoproducto');
 
             $table->integer('idmedida')->unsigned();
             $table->foreign('idmedida')->references('id')->on('medidaproducto');
+
+           
             
             $table->boolean('estado')->default(1);
             $table->timestamps();
