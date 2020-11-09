@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PersonaModelo extends Model
+class Persona extends Model
 {
     protected $table = 'personas';
     protected $fillable = ['nombre','direccion','telefono','email','estado'];
