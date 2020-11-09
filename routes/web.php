@@ -22,3 +22,7 @@ Route::put('/medida/activar', 'MedidaProductoController@activar');
 
 // RUTAS DE PRODUCTO
 Route::get('/producto', 'ProductoController@index');
+Route::post('/producto/registrar', 'ProductoController@store');
+Route::put('/producto/actualizar', 'ProductoController@update');
+Route::put('/producto/desactivar', 'ProductoController@desactivar');
+Route::put('/producto/activar', 'ProductoController@activar');
