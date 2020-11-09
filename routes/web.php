@@ -21,3 +21,4 @@ Route::put('/medida/desactivar', 'MedidaProductoController@desactivar');
 Route::put('/medida/activar', 'MedidaProductoController@activar');
 
 // RUTAS DE PRODUCTO
+Route::get('/producto', 'ProductoController@index');
