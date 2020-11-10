@@ -2800,6 +2800,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2878,6 +2892,9 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    getImage: function getImage(event) {
+      this.foto = event.target.files[0];
     },
     cambiarPagina: function cambiarPagina(page, buscar, criterio) {
       var me = this; //Actualiza la página actual
@@ -41122,6 +41139,30 @@ var render = function() {
                               _vm.medida = $event.target.value
                             }
                           }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Imagen del producto")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "class-md-9" }, [
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "file",
+                            id: "image",
+                            name: "image",
+                            accept: "image/*"
+                          },
+                          on: { change: _vm.getImage }
                         })
                       ])
                     ]),

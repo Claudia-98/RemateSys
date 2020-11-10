@@ -117,6 +117,7 @@
                                         
                                     </div>
                                 </div>
+                                
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Alias</label>
                                     <div class="col-md-9">
@@ -159,6 +160,19 @@
                                         
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Imagen del producto</label>
+                                        <div class="class-md-9">
+                                            <input
+                                                type="file"
+                                                id="image"
+                                                class="form-control"
+                                                name="image"
+                                                @change="getImage"
+                                                accept="image/*"
+                                            />
+                                        </div>
+                                    </div>
                                 
                                 <div v-show="errorProducto" class="form-group row div-error">
                                     <div class="text-center text-error">
@@ -261,6 +275,9 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+            },
+            getImage(event) {
+                this.foto = event.target.files[0];
             },
             cambiarPagina(page,buscar,criterio){
                 let me = this;
