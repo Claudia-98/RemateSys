@@ -35,12 +35,17 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Medida</th>
+                                    <th>        </th>
+                                    <th>Nombre</th>
+                                    <th>Alias</th>
+                                    <th>Código</th>
+                                    <th>Precio normal</th>
+                                    <th>Precio mayoreo</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="categoria in arrayMedida" :key="categoria.id">
+                                <tr v-for="categoria in arrayProducto" :key="categoria.id">
                                     <td>
                                         <button type="button" @click="abrirModal('categoria','actualizar',categoria)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
@@ -56,7 +61,14 @@
                                             </button>
                                         </template>
                                     </td>
-                                    <td v-text="categoria.medida"></td>
+                                    <td>
+                                        <img class="imgUser" v-bind:src="'/uploads/'+categoria.foto" />
+                                    </td>
+                                    <td v-text="categoria.nombre"></td>
+                                    <td v-text="categoria.alias"></td>
+                                    <td v-text="categoria.codigo"></td>
+                                    <td v-text="categoria.precio_venta"></td>
+                                    <td v-text="categoria.precio_mayoreo"></td>
                                     <td>
                                         <div v-if="categoria.estado">
                                             <span class="badge badge-success">Activo</span>
@@ -99,16 +111,58 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Medida</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Medida">
+                                        <input type="text" v-model="medida" class="form-control" placeholder="Nombre del producto">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Alias</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="medida" class="form-control" placeholder="Alias del producto">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Código</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="medida" class="form-control" placeholder="Código del producto">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Descripción</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="medida" class="form-control" placeholder="Descripción del producto">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Precio venta</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="medida" class="form-control" placeholder="Precio venta del producto">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Precio mayoreo</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="medida" class="form-control" placeholder="Precio para venta al mayoreo del producto">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Precio compra</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="medida" class="form-control" placeholder="Precio compra del producto">
                                         
                                     </div>
                                 </div>
                                 
-                                <div v-show="errorMedida" class="form-group row div-error">
+                                <div v-show="errorProducto" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjMedida" :key="error" v-text="error">
+                                        <div v-for="error in errorMostrarMsjProducto" :key="error" v-text="error">
 
                                         </div>
                                     </div>
@@ -118,8 +172,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarMedida()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarMedida()">Actualizar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarProducto()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarProducto()">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -134,14 +188,25 @@
     export default {
         data (){
             return {
-                medida_id: 0,
+                producto_id: 0,
+                persona_id:0,
+                tipo_id:0,
+                medida_id:0,
                 medida : '',
-                arrayMedida : [],
+                nombre:'',
+                alias:'',
+                codigo:'',
+                foto:'',
+                descripcion:'',
+                precio_venta:0.0,
+                precio_mayoreo:0.0,
+                precio_compra:0.0,
+                arrayProducto : [],
                 modal : 0,
                 tituloModal : '',
                 tipoAccion : 0,
-                errorMedida : 0,
-                errorMostrarMsjMedida : [],
+                errorProducto : 0,
+                errorMostrarMsjProducto : [],
                 pagination : {
                     'total' : 0,
                     'current_page' : 0,
@@ -187,10 +252,10 @@
         methods : {
             listarProducto (page,buscar,criterio){
                 let me=this;
-                var url= '/medida?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= '/producto?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayMedida = respuesta.medidas.data;
+                    me.arrayProducto = respuesta.productos.data;
                     me.pagination= respuesta.pagination;
                 })
                 .catch(function (error) {
@@ -204,43 +269,63 @@
                 //Envia la petición para visualizar la data de esa página
                 me.listarProducto(page,buscar,criterio);
             },
-            registrarMedida(){
-                if (this.validarMedida()){
+            registrarProducto(){
+                if (this.validarProducto()){
                     return;
                 }
                 
                 let me = this;
 
-                axios.post('/medida/registrar',{
-                    'medida': this.medida
+                axios.post('/producto/registrar',{
+                    'nombre': this.nombre,
+                    'alias':this.alias,
+                    'codigo':this.codigo,
+                    'foto':this.foto,
+                    'descripcion':this.descripcion,
+                    'precio_venta':this.precio_venta,
+                    'precio_mayoreo':this.precio_mayoreo,
+                    'precio_compra':this.precio_compra,
+                    'idpersona':this.persona_id,
+                    'idtipo':this.tipo_id,
+                    'idmedida':this.medida_id
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarProducto(1,'','medida');
+                    me.listarProducto(1,'','nombre');
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
-            actualizarMedida(){
-               if (this.validarMedida()){
+            actualizarProducto(){
+               if (this.validarProducto()){
                     return;
                 }
                 
                 let me = this;
 
-                axios.put('/medida/actualizar',{
-                    'medida': this.medida,
-                    'id': this.medida_id
+                axios.put('/producto/actualizar',{
+                    'nombre': this.nombre,
+                    'id': this.producto_id,
+                    'alias':this.alias,
+                    'descripcion':this.descripcion,
+                    'codigo':this.codigo,
+                    'foto':this.foto,
+                    'precio_venta':this.precio_venta,
+                    'precio_mayoreo':this.precio_mayoreo,
+                    'precio_compra':this.precio_compra,
+                    'idpersona':this.persona_id,
+                    'idtipo':this.tipo_id,
+                    'idmedida':this.medida_id
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarProducto(1,'','medida');
+                    me.listarProducto(1,'','nombre');
                 }).catch(function (error) {
                     console.log(error);
                 }); 
             },
             desactivarMedida(id){
                Swal.fire({
-                title: 'Desactivar categoría',
-                text: "¿Esta seguro de desactivar esta medida?",
+                title: 'Desactivar artículo',
+                text: "¿Esta seguro de desactivar esta artículo?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -250,13 +335,13 @@
                 if (result.value) {
                     let me = this;
 
-                    axios.put('/medida/desactivar',{
+                    axios.put('/producto/desactivar',{
                         'id': id
                     }).then(function (response) {
                         me.listarProducto(1,'','nombre');
                         Swal.fire(
                         'Desactivado!',
-                        'La medida ha sido desactivada con éxito.',
+                        'El artículo ha sido desactivada con éxito.',
                         'success'
                         )
                     }).catch(function (error) {
@@ -274,8 +359,8 @@
             },
             activarMedida(id){
                Swal.fire({
-                title: 'Desactivar medida',
-                text: "¿Esta seguro de activar esta medida?",
+                title: 'Desactivar artículo',
+                text: "¿Esta seguro de activar esta artículo?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -285,13 +370,13 @@
                 if (result.value) {
                     let me = this;
 
-                    axios.put('/medida/activar',{
+                    axios.put('/producto/activar',{
                         'id': id
                     }).then(function (response) {
                         me.listarProducto(1,'','nombre');
                         Swal.fire(
                         'Activado!',
-                        'La medida ha sido activada con éxito.',
+                        'El artículo ha sido activada con éxito.',
                         'success'
                         )
                     }).catch(function (error) {
@@ -307,15 +392,23 @@
                 }
                 }) 
             },
-            validarMedida(){
-                this.errorMedida=0;
-                this.errorMostrarMsjMedida =[];
+            validarProducto(){
+                this.errorProducto=0;
+                this.errorMostrarMsjProducto =[];
 
-                if (!this.medida) this.errorMostrarMsjMedida.push("La medida no puede estar vacío.");
+                if (!this.nombre) this.errorMostrarMsjProducto.push("El nombre del artículo no puede estar vacío.");
+                if (!this.alias) this.errorMostrarMsjProducto.push("El alias del artículo no puede estar vacío.");
+                if (!this.codigo) this.errorMostrarMsjProducto.push("El codigo del artículo no puede estar vacío.");
+                if (!this.precio_venta||this.precio_venta<=0) this.errorMostrarMsjProducto.push("El precio de venta del artículo no puede estar vacío o ser menor a 0.");
+                if (!this.precio_mayoreo||this.precio_mayoreo<=0) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
+                if (!this.precio_compra||this.precio_compra<=0) this.errorMostrarMsjProducto.push("El precio de compra del artículo no puede estar vacío o ser menor a 0.");
+                // if (!this.persona_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener un proveedor.");
+                if (!this.medida_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener una medida asignada.");
+                if (!this.tipo_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener una categoria asignada.");
 
-                if (this.errorMostrarMsjMedida.length) this.errorMedida = 1;
+                if (this.errorMostrarMsjProducto.length) this.errorProducto = 1;
 
-                return this.errorMedida;
+                return this.errorProducto;
             },
             cerrarModal(){
                 this.modal=0;
@@ -342,7 +435,7 @@
                                 this.modal=1;
                                 this.tituloModal='Actualizar artículo';
                                 this.tipoAccion=2;
-                                this.medida_id=data['id'];
+                                this.producto_id=data['id'];
                                 this.nombre = data['medida'];
                                 break;
                             }

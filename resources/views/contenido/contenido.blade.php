@@ -9,4 +9,7 @@
         <template v-if="menu==2">
             <medida></medida>
         </template>
+        <template v-if="menu==3">
+            <producto></producto>
+        </template>
     @endsection
