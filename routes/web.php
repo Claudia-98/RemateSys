@@ -26,3 +26,6 @@ Route::post('/producto/registrar', 'ProductoController@store');
 Route::put('/producto/actualizar', 'ProductoController@update');
 Route::put('/producto/desactivar', 'ProductoController@desactivar');
 Route::put('/producto/activar', 'ProductoController@activar');
+Route::get('/producto/obtenerMedida', 'ProductoController@obtenerMedida');
+Route::get('/producto/obtenerPersona', 'ProductoController@obtenerPersona');
+Route::get('/producto/obtenerTipo', 'ProductoController@obtenerTipo');

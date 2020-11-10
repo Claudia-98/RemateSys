@@ -113,7 +113,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Nombre del producto">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre del producto">
                                         
                                     </div>
                                 </div>
@@ -121,43 +121,70 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Alias</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Alias del producto">
+                                        <input type="text" v-model="alias" class="form-control" placeholder="Alias del producto">
                                         
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Código</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Código del producto">
+                                        <input type="text" v-model="codigo" class="form-control" placeholder="Código del producto">
                                         
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Categoria de producto</label>
+                                    <div class="col-md-9">
+                                        <select id="cargoo" class="form-control" v-model="tipo_id" >
+                                            <option value="0" disabled>Seleccione</option>
+                                            <option v-for="tipo in arrayTipo" :key="tipo.id" :value="tipo.id" v-text="tipo.nombre"></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Descripción</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Descripción del producto">
+                                        <input type="text" v-model="descripcion" class="form-control" placeholder="Descripción del producto">
                                         
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Precio venta</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Precio venta del producto">
+                                        <input type="text" v-model="precio_venta" class="form-control" placeholder="Precio venta del producto">
                                         
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Precio mayoreo</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Precio para venta al mayoreo del producto">
+                                        <input type="text" v-model="precio_mayoreo" class="form-control" placeholder="Precio para venta al mayoreo del producto">
                                         
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Precio compra</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Precio compra del producto">
+                                        <input type="text" v-model="precio_compra" class="form-control" placeholder="Precio compra del producto">
                                         
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Medida del producto</label>
+                                    <div class="col-md-9">
+                                        <select id="cargoo" class="form-control" v-model="medida_id" >
+                                            <option value="0" disabled>Seleccione</option>
+                                            <option v-for="medida in arrayMedida" :key="medida.id" :value="medida.id" v-text="medida.medida"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Proveedor</label>
+                                    <div class="col-md-9">
+                                        <select id="cargoo" class="form-control" v-model="persona_id" >
+                                            <option value="0" disabled>Seleccione</option>
+                                            <option v-for="persona in arrayPersona" :key="persona.id" :value="persona.id" v-text="persona.nombre"></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -216,6 +243,9 @@
                 precio_mayoreo:0.0,
                 precio_compra:0.0,
                 arrayProducto : [],
+                arrayTipo:[],
+                arrayPersona:[],
+                arrayMedida:[],
                 modal : 0,
                 tituloModal : '',
                 tipoAccion : 0,
@@ -285,6 +315,39 @@
                 me.pagination.current_page = page;
                 //Envia la petición para visualizar la data de esa página
                 me.listarProducto(page,buscar,criterio);
+            },
+            obtenerMedida(){
+                let me = this;
+
+                axios.get('producto/obtenerMedida').then(function (response) {
+                    var respuesta= response.data;
+                    me.arrayMedida = respuesta.medida;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            obtenerTipo(){
+                let me = this;
+
+                axios.get('producto/obtenerTipo').then(function (response) {
+                    var respuesta= response.data;
+                    me.arrayTipo = respuesta.tipo;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+            obtenerPersona(){
+                let me = this;
+
+                axios.get('producto/obtenerPersona').then(function (response) {
+                    var respuesta= response.data;
+                    me.arrayPersona = respuesta.persona;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             },
             registrarProducto(){
                 if (this.validarProducto()){
@@ -442,8 +505,21 @@
                             {
                                 this.modal = 1;
                                 this.tituloModal = 'Registrar artículo';
-                                this.medida= '';
+                                this.nombre= '';
+                                this.alias='';
+                                this.codigo='';
+                                this.foto='';
+                                this.descripcion='';
+                                this.precio_venta=0;
+                                this.precio_mayoreo=0;
+                                this.precio_compra=0;
+                                this.persona_id=0;
+                                this.tipo_id=0;
+                                this.medida_id=0;
                                 this.tipoAccion = 1;
+                                this.obtenerMedida();
+                                this.obtenerTipo();
+                                this.obtenerPersona();
                                 break;
                             }
                             case 'actualizar':

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\MedidaProducto;
 use App\Categoria;
+use App\Persona;
 use App\Producto;
+use Image;
 
 class ProductoController extends Controller
 {
@@ -72,6 +74,32 @@ class ProductoController extends Controller
             'productos' => $productos
         ];
     } 
+
+    public function obtenerMedida(Request $request){
+        if (!$request->ajax()) return redirect('/');
+        
+        $medida = MedidaProducto::where('estado','=','1')
+                                ->orderBy('id', 'desc')
+                                ->get();
+        return ['medida' => $medida];
+    }
+    public function obtenerPersona(Request $request){
+        if (!$request->ajax()) return redirect('/');
+
+        $persona = Persona::where('estado','=','1')
+                                ->orderBy('id', 'desc')
+                                ->get();
+        return ['persona'=>$persona];
+    }
+    public function obtenerTipo(Request $request){
+        if (!$request->ajax()) return redirect('/');
+
+        $tipo = Categoria::where('estado','=','1')
+                                ->orderBy('id', 'desc')
+                                ->get();
+        return ['tipo'=>$tipo];
+        
+    }
 
     public function store(Request $request)
     {

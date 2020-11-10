@@ -2814,6 +2814,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2831,6 +2858,9 @@ __webpack_require__.r(__webpack_exports__);
       precio_mayoreo: 0.0,
       precio_compra: 0.0,
       arrayProducto: [],
+      arrayTipo: [],
+      arrayPersona: [],
+      arrayMedida: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
@@ -2902,6 +2932,33 @@ __webpack_require__.r(__webpack_exports__);
       me.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
 
       me.listarProducto(page, buscar, criterio);
+    },
+    obtenerMedida: function obtenerMedida() {
+      var me = this;
+      axios.get('producto/obtenerMedida').then(function (response) {
+        var respuesta = response.data;
+        me.arrayMedida = respuesta.medida;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    obtenerTipo: function obtenerTipo() {
+      var me = this;
+      axios.get('producto/obtenerTipo').then(function (response) {
+        var respuesta = response.data;
+        me.arrayTipo = respuesta.tipo;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    obtenerPersona: function obtenerPersona() {
+      var me = this;
+      axios.get('producto/obtenerPersona').then(function (response) {
+        var respuesta = response.data;
+        me.arrayPersona = respuesta.persona;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     registrarProducto: function registrarProducto() {
       if (this.validarProducto()) {
@@ -3038,8 +3095,21 @@ __webpack_require__.r(__webpack_exports__);
                 {
                   this.modal = 1;
                   this.tituloModal = 'Registrar artículo';
-                  this.medida = '';
+                  this.nombre = '';
+                  this.alias = '';
+                  this.codigo = '';
+                  this.foto = '';
+                  this.descripcion = '';
+                  this.precio_venta = 0;
+                  this.precio_mayoreo = 0;
+                  this.precio_compra = 0;
+                  this.persona_id = 0;
+                  this.tipo_id = 0;
+                  this.medida_id = 0;
                   this.tipoAccion = 1;
+                  this.obtenerMedida();
+                  this.obtenerTipo();
+                  this.obtenerPersona();
                   break;
                 }
 
@@ -40892,8 +40962,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.nombre,
+                              expression: "nombre"
                             }
                           ],
                           staticClass: "form-control",
@@ -40901,13 +40971,13 @@ var render = function() {
                             type: "text",
                             placeholder: "Nombre del producto"
                           },
-                          domProps: { value: _vm.medida },
+                          domProps: { value: _vm.nombre },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.nombre = $event.target.value
                             }
                           }
                         })
@@ -40930,8 +41000,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.alias,
+                              expression: "alias"
                             }
                           ],
                           staticClass: "form-control",
@@ -40939,13 +41009,13 @@ var render = function() {
                             type: "text",
                             placeholder: "Alias del producto"
                           },
-                          domProps: { value: _vm.medida },
+                          domProps: { value: _vm.alias },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.alias = $event.target.value
                             }
                           }
                         })
@@ -40968,8 +41038,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.codigo,
+                              expression: "codigo"
                             }
                           ],
                           staticClass: "form-control",
@@ -40977,16 +41047,78 @@ var render = function() {
                             type: "text",
                             placeholder: "Código del producto"
                           },
-                          domProps: { value: _vm.medida },
+                          domProps: { value: _vm.codigo },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.codigo = $event.target.value
                             }
                           }
                         })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Categoria de producto")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.tipo_id,
+                                expression: "tipo_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "cargoo" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.tipo_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "0", disabled: "" } },
+                              [_vm._v("Seleccione")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.arrayTipo, function(tipo) {
+                              return _c("option", {
+                                key: tipo.id,
+                                domProps: {
+                                  value: tipo.id,
+                                  textContent: _vm._s(tipo.nombre)
+                                }
+                              })
+                            })
+                          ],
+                          2
+                        )
                       ])
                     ]),
                     _vm._v(" "),
@@ -41006,8 +41138,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.descripcion,
+                              expression: "descripcion"
                             }
                           ],
                           staticClass: "form-control",
@@ -41015,13 +41147,13 @@ var render = function() {
                             type: "text",
                             placeholder: "Descripción del producto"
                           },
-                          domProps: { value: _vm.medida },
+                          domProps: { value: _vm.descripcion },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.descripcion = $event.target.value
                             }
                           }
                         })
@@ -41044,8 +41176,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.precio_venta,
+                              expression: "precio_venta"
                             }
                           ],
                           staticClass: "form-control",
@@ -41053,13 +41185,13 @@ var render = function() {
                             type: "text",
                             placeholder: "Precio venta del producto"
                           },
-                          domProps: { value: _vm.medida },
+                          domProps: { value: _vm.precio_venta },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.precio_venta = $event.target.value
                             }
                           }
                         })
@@ -41082,8 +41214,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.precio_mayoreo,
+                              expression: "precio_mayoreo"
                             }
                           ],
                           staticClass: "form-control",
@@ -41092,13 +41224,13 @@ var render = function() {
                             placeholder:
                               "Precio para venta al mayoreo del producto"
                           },
-                          domProps: { value: _vm.medida },
+                          domProps: { value: _vm.precio_mayoreo },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.precio_mayoreo = $event.target.value
                             }
                           }
                         })
@@ -41121,8 +41253,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.precio_compra,
+                              expression: "precio_compra"
                             }
                           ],
                           staticClass: "form-control",
@@ -41130,16 +41262,140 @@ var render = function() {
                             type: "text",
                             placeholder: "Precio compra del producto"
                           },
-                          domProps: { value: _vm.medida },
+                          domProps: { value: _vm.precio_compra },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.precio_compra = $event.target.value
                             }
                           }
                         })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Medida del producto")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.medida_id,
+                                expression: "medida_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "cargoo" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.medida_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "0", disabled: "" } },
+                              [_vm._v("Seleccione")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.arrayMedida, function(medida) {
+                              return _c("option", {
+                                key: medida.id,
+                                domProps: {
+                                  value: medida.id,
+                                  textContent: _vm._s(medida.medida)
+                                }
+                              })
+                            })
+                          ],
+                          2
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Proveedor")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c(
+                          "select",
+                          {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.persona_id,
+                                expression: "persona_id"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: { id: "cargoo" },
+                            on: {
+                              change: function($event) {
+                                var $$selectedVal = Array.prototype.filter
+                                  .call($event.target.options, function(o) {
+                                    return o.selected
+                                  })
+                                  .map(function(o) {
+                                    var val = "_value" in o ? o._value : o.value
+                                    return val
+                                  })
+                                _vm.persona_id = $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "option",
+                              { attrs: { value: "0", disabled: "" } },
+                              [_vm._v("Seleccione")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.arrayPersona, function(persona) {
+                              return _c("option", {
+                                key: persona.id,
+                                domProps: {
+                                  value: persona.id,
+                                  textContent: _vm._s(persona.nombre)
+                                }
+                              })
+                            })
+                          ],
+                          2
+                        )
                       ])
                     ]),
                     _vm._v(" "),
