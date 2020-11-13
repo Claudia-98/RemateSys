@@ -24,8 +24,10 @@ class EspacioController extends Controller
         // if (!$request->ajax()) return redirect('/');
 
         $espaciop = EspacioProducto::with('producto.medida','espacio')
-                            ->where('idproducto','like',$request->idproducto)
-                            ->andWhere('idespacio','like',$request->idespacio)
+                                ->where('idespacio','=',$request->idespacio)
+                                ->where('idproducto','=',$request->idproducto)
+                            // ->where('idproducto','like',$request->idproducto,'AND','idespacio','like',$request->idespacio)
+                            // ->andWhere('idespacio','like',$request->idespacio)
                             ->get();
         return ['espacio'=>$espaciop];
 

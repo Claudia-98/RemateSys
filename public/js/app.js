@@ -2877,7 +2877,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 3:
                 me.producto_id = id;
-                url = '/espacio/obtenerStock?idproducto=' + id + '&idespacio=' + me.espacio_id;
+                url = '/espacio/obtenerStock?idproducto=' + me.producto_id + '&idespacio=' + me.espacio_id;
                 _context.next = 7;
                 return axios.get(url).then(function (response) {
                   var respuesta = response.data;

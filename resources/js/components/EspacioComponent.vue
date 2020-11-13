@@ -555,7 +555,7 @@
                     return;
                 }
                 me.producto_id=id;
-                let url = '/espacio/obtenerStock?idproducto=' + id + '&idespacio='+me.espacio_id;
+                let url = '/espacio/obtenerStock?idproducto=' + me.producto_id + '&idespacio='+me.espacio_id;
                 await axios.get(url).then(function (response) {
                     let respuesta = response.data;
                     var array = respuesta.espacio;
