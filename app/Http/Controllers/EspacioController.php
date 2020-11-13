@@ -23,10 +23,30 @@ class EspacioController extends Controller
     public function obtenerStock(Request $request){
         // if (!$request->ajax()) return redirect('/');
 
-        $espaciop = EspacioProducto::with('producto','espacio')
-                            ->where('idproducto','like',$request->id)
+        $espaciop = EspacioProducto::with('producto.medida','espacio')
+                            ->where('idproducto','like',$request->idproducto)
+                            ->andWhere('idespacio','like',$request->idespacio)
                             ->get();
         return ['espacio'=>$espaciop];
+
+    }
+    public function obtenerSP(Request $request){
+        // if (!$request->ajax()) return redirect('/');
+
+        $producto = EspacioProducto::with('producto.medida','espacio')
+                                ->where('idespacio','like',$request->id)
+                                ->paginate(10);
+        return [
+            'pagination' => [
+                'total'        => $producto->total(),
+                'current_page' => $producto->currentPage(),
+                'per_page'     => $producto->perPage(),
+                'last_page'    => $producto->lastPage(),
+                'from'         => $producto->firstItem(),
+                'to'           => $producto->lastItem(),
+            ],
+            'producto' => $producto
+        ];
 
     }
 
@@ -38,10 +58,10 @@ class EspacioController extends Controller
         $criterio = $request->criterio;
         
         if ($buscar==''){
-            $espacios = Espacio::orderBy('id', 'desc')->paginate(3);
+            $espacios = Espacio::orderBy('id', 'desc')->paginate(10);
         }
         else{
-            $espacios = Espacio::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(3);
+            $espacios = Espacio::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(10);
         }
         
 

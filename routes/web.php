@@ -34,6 +34,7 @@ Route::get('/producto/obtenerTipo', 'ProductoController@obtenerTipo');
 Route::get('/espacio', 'EspacioController@index');
 Route::get('/espacio/obtenerProducto', 'EspacioController@obtenerProducto');
 Route::get('/espacio/obtenerStock', 'EspacioController@obtenerStock');
+Route::get('/espacio/productos', 'EspacioController@obtenerSP');
 Route::post('/espacio/registrar', 'EspacioController@store');
 Route::post('/espacio/registrarP', 'EspacioController@storeP');
 Route::put('/espacio/actualizar', 'EspacioController@update');
