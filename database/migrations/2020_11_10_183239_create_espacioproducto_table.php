@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEspacioTable extends Migration
+class CreateEspacioproductoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateEspacioTable extends Migration
      */
     public function up()
     {
-        Schema::create('espacio', function (Blueprint $table) {
+        Schema::create('espacioproducto', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre', 100);
-            $table->string('direccion', 100);
-            $table->string('telefono', 16)->nullable();
+            $table->integer('idespacio')->unsigned();
+            $table->foreign('idespacio')->references('id')->on('espacio');
+            $table->integer('idproducto')->unsigned();
+            $table->foreign('idproducto')->references('id')->on('producto');
+            $table->decimal('stock',10,2)->nullable();
             $table->boolean('estado')->default(1);
-
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateEspacioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('espacio');
+        Schema::dropIfExists('espacioproducto');
     }
 }

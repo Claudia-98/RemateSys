@@ -21,7 +21,7 @@ class ProductoController extends Controller
         
         if ($buscar=='' && $criterio==''){
             $productos = Producto::with('tipo','medida','proveedor')
-                                ->orderBy('id', 'desc')
+                                ->orderBy('id', 'asc')
                                 ->paginate(10);
         }
         else{
@@ -121,13 +121,16 @@ class ProductoController extends Controller
             $imagen->save($ruta . $temp_name, 100);
             $producto->foto = $temp_name;    
         }
+        else{
+            $producto->foto = 'producto.jpg';
+        }
 
         $producto->precio_venta=$request->precio_venta;
         $producto->precio_mayorista=$request->precio_mayorista;
         $producto->precio_compra=$request->precio_compra;
-        $producto->idpersonas=$request->idproveedor;
+        $producto->idpersonas=$request->idpersona;
         $producto->idtipo=$request->idtipo;
-        $producto->idmedida=$request->medida;
+        $producto->idmedida=$request->idmedida;
         $producto->estado='1';
         $producto->save();
         
@@ -155,9 +158,9 @@ class ProductoController extends Controller
         $producto->precio_venta=$request->precio_venta;
         $producto->precio_mayorista=$request->precio_mayorista;
         $producto->precio_compra=$request->precio_compra;
-        $producto->idpersonas=$request->idproveedor;
+        $producto->idpersonas=$request->idpersona;
         $producto->idtipo=$request->idtipo;
-        $producto->idmedida=$request->medida;
+        $producto->idmedida=$request->idmedida;
         $producto->estado = '1';
         $producto->save();
     }

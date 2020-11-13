@@ -21,6 +21,9 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" @click="menu=4" href="#"><i class="icon-bag"></i> Tiendas\Espacios</a>
+                    </li>
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-wallet"></i> Compras</a>
                         <ul class="nav-dropdown-items">

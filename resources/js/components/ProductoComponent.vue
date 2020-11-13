@@ -363,7 +363,7 @@
                     'foto':this.foto,
                     'descripcion':this.descripcion,
                     'precio_venta':this.precio_venta,
-                    'precio_mayoreo':this.precio_mayoreo,
+                    'precio_mayorista':this.precio_mayoreo,
                     'precio_compra':this.precio_compra,
                     'idpersona':this.persona_id,
                     'idtipo':this.tipo_id,
@@ -390,7 +390,7 @@
                     'codigo':this.codigo,
                     'foto':this.foto,
                     'precio_venta':this.precio_venta,
-                    'precio_mayoreo':this.precio_mayoreo,
+                    'precio_mayorista':this.precio_mayoreo,
                     'precio_compra':this.precio_compra,
                     'idpersona':this.persona_id,
                     'idtipo':this.tipo_id,
@@ -529,7 +529,20 @@
                                 this.tituloModal='Actualizar artículo';
                                 this.tipoAccion=2;
                                 this.producto_id=data['id'];
-                                this.nombre = data['medida'];
+                                this.nombre= data['nombre'];
+                                this.alias=data['alias'];
+                                this.codigo=data['codigo'];
+                                this.foto=data['foto'];
+                                this.descripcion=data['descripcion'];
+                                this.precio_venta=data['precio_venta'];
+                                this.precio_mayoreo=data['precio_mayorista'];
+                                this.precio_compra=data['precio_compra'];
+                                this.persona_id=data['idpersonas'];
+                                this.tipo_id=data['idtipo'];
+                                this.medida_id=data['idmedida'];
+                                this.obtenerMedida();
+                                this.obtenerTipo();
+                                this.obtenerPersona();
                                 break;
                             }
                         }
@@ -556,6 +569,12 @@
     .div-error{
         display: flex;
         justify-content: center;
+    }
+    .imgUser {
+        width: 100px !important;
+        height: 100px;
+        /* border-radius: 150px; */
+        border: 10px rgb(4, 1, 74);
     }
     .text-error{
         color: red !important;
