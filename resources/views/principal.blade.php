@@ -80,8 +80,8 @@
     
 
     <footer class="app-footer">
-        <span>El Remate &copy; 2020</span>
-        <span class="ml-auto">Desarrollado por C14U & R05H</span>
+        <span >El Remate &trade;</span>
+        <span class="ml-auto">ROSHMANE.CORP &copy; 2020</span>
     </footer>
 </div>
     <!-- Bootstrap and necessary plugins -->

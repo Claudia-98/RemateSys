@@ -2,7 +2,7 @@
             <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Inicio</li>
+                <li class="breadcrumb-item">Sistema</li>
                 <li class="breadcrumb-item">Tiendas-Espacios</li>
                 <!-- <li class="breadcrumb-item active">Medidas</li> -->
             </ol>
@@ -44,6 +44,9 @@
                                     <td>
                                         <button type="button" @click="abrirModal('espacio','actualizar',categoria)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
+                                        </button> &nbsp;
+                                        <button type="button" @click="agregarStock(categoria.id,categoria.nombre,categoria.direccion)" class="btn btn-primary btn-sm">
+                                          <i class="icon-plus"></i>
                                         </button> &nbsp;
                                         <template v-if="categoria.estado">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarMedida(categoria.id)">
@@ -143,23 +146,114 @@
                 <!-- /.modal-dialog -->
             </div>
             <!--Fin del modal-->
+
+            <!--Inicio del modal agregar stock-->
+            <div class="modal fade" tabindex="-1" :class="{'mostrar' : modalP}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="'Agregar stock en '+nombre"></h4>
+                            <button type="button" class="close" @click="cerrarModalP()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-md-7 form-control-label" for="text-input"><strong>Dirección del espacio / tienda: </strong> {{direccion}}</label>
+                                    
+                                </div>
+                                <template v-if="bandera==0">
+                                    <div>
+                                        <span style="color:red;" v-show="ClienteEXIST == ''">Busque un producto</span>
+                                        <div class="form-inline">
+                                            <v-select style="width: 75%"
+                                                ref="buscadorCliente"
+                                                v-model="ClienteEXIST"
+                                                @search="selectCliente"
+                                                label="nombre"
+                                                :options="arrayProducto"
+                                                placeholder="Buscar artículos..."
+                                                @input="getDatosCliente">
+                                                <span slot="no-options">No hay coincidencias con los registros.</span>
+                                            </v-select>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template v-if="bandera==1">
+                                    <div class="form-group row" v-if="band==0">
+                                        <label class="col-md-3 form-control-label" for="text-input"><strong>Stock actual:</strong> {{stock}}</label>
+                                    </div>
+                                    <div class="form-group row" v-if="band==1">
+                                        <label class="col-md-3 form-control-label" for="text-input"><strong>Primer stock</strong></label>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Nuevo stock:</label>
+                                        
+                                        <div class="col-md-3">
+                                            <input type="number" min="0" v-model="stockN" class="form-control" placeholder="Existencia del producto en la tienda ó espacio">
+                                        </div>
+                                    </div>
+
+
+                                </template>
+                                
+                                
+                                <div v-show="errorEspacioP" class="form-group row div-error">
+                                    <div class="text-center text-error">
+                                        <div v-for="error in errorMostrarMsjEspacioP" :key="error" v-text="error">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" v-if="bandera==0" class="btn btn-secondary" @click="cerrarModalP()">Cerrar</button>
+                            <button type="button" v-if="bandera==1" class="btn btn-secondary" @click="anterior()">Atras</button>
+                            <button type="button" v-if="bandera==0" class="btn btn-primary" @click="siguiente(ClienteEXIST.id)">Siguiente</button>
+                            <button type="button" v-if="bandera==1" class="btn btn-primary" @click="registrarStock()">Agregar</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--Fin del modal-->
         </main>
 </template>
 
 <script>
+    import vSelect from 'vue-select';
+    import 'vue-select/dist/vue-select.css';
+
     export default {
         data (){
             return {
                 espacio_id: 0,
+                espaciop_id: 0,
+                producto_id: 0,
                 nombre : '',
                 direccion : '',
                 telefono : '',
                 arrayEspacio : [],
+                arrayProducto:[],
                 modal : 0,
+                band:0,
+                modalP : 0,
+                stock:0,
+                stockN:0,
                 tituloModal : '',
+                ClienteEXIST:'',
+                bandera:0,
+                idcliente:0,
                 tipoAccion : 0,
+                loading:0,
                 errorEspacio : 0,
                 errorMostrarMsjEspacio : [],
+                errorEspacioP : 0,
+                errorMostrarMsjEspacioP : [],
                 pagination : {
                     'total' : 0,
                     'current_page' : 0,
@@ -201,6 +295,9 @@
                 return pagesArray;             
 
             }
+        },
+        components: {
+            vSelect
         },
         methods : {
             listarEspacio (page,buscar,criterio){
@@ -246,18 +343,92 @@
                 }
                 
                 let me = this;
-
-                axios.put('/espacio/actualizar',{
-                    'nombre': this.nombre,
+                
+                    axios.put('/espacio/actualizar',{
+                        'nombre': this.nombre,
                     'direccion': this.direccion,
                     'telefono': this.telefono,
                     'id': this.espacio_id
-                }).then(function (response) {
-                    me.cerrarModal();
-                    me.listarEspacio(1,'','direccion');
-                }).catch(function (error) {
-                    console.log(error);
-                }); 
+                    }).then(function (response) {
+                        me.cerrarModal();
+                        me.listarEspacio(1,'','direccion');
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                
+            },
+            agregarStock(id,nom,dir){
+                var me = this;
+                me.espacio_id=id; me.nombre=nom; me.direccion=dir; me.stock=0;
+                me.modalP=1;
+            },
+            registrarStock(){
+                var me = this;
+                if(me.validarStock()){
+                    return;
+                }
+                if(me.band==0){
+                    axios.put('/espacio/actualizarP',{
+                        'idespacio': this.espacio_id,
+                        'idproducto': this.producto_id,
+                        'stock': this.stockN,
+                        'id': this.espaciop_id
+                    }).then(function (response) {
+                        me.cerrarModalP();
+                        me.listarEspacio(1,'','direccion');
+                    }).catch(function (error) {
+                        console.log(error);
+                    }); 
+                } else if (me.band==1){
+                    axios.post('/espacio/registrarP',{
+                        'idespacio': this.espacio_id,
+                            'idproducto': this.producto_id,
+                            'stock': this.stockN
+                    }).then(function (response) {
+                        me.cerrarModalP();
+                        me.listarEspacio(1,'','direccion');
+                    }).catch(function (error) {
+                        console.log(error);
+                    }); 
+                }
+
+            },
+            async siguiente(id){
+                var me = this;
+                if(me.ClienteEXIST==''||me.ClienteEXIST==null){
+                    return;
+                }
+                me.producto_id=id;
+                let url = '/espacio/obtenerStock?id=' + id;
+                await axios.get(url).then(function (response) {
+                    let respuesta = response.data;
+                    var array = respuesta.espacio;
+                    me.arrayEspacioP = array[0];
+                })
+                .catch(function (error) {
+                    // console.log({error});
+                });
+                if(me.arrayEspacioP==[]||me.arrayEspacioP==''||me.arrayEspacioP==null){
+                    me.band=1;
+                    me.bandera=1;
+                }
+                else{
+                    me.band=0;
+                    me.espaciop_id=me.arrayEspacioP['id'];
+                    me.stock=me.arrayEspacioP['stock'];
+                    me.stockN=me.arrayEspacioP['stock'];
+                    me.bandera=1;
+                }
+                
+            },
+            anterior(){
+                var me = this;
+                me.bandera=0;
+                me.band=0;
+                me.ClienteEXIST='';
+                me.stock=0;
+                me.stockN=0;
+                me.arrayEspacioP=[];
             },
             desactivarMedida(id){
                Swal.fire({
@@ -294,6 +465,34 @@
                 }
                 }) 
             },
+            selectCliente(search, loading){
+                let me = this;
+                loading(true);
+                let url = '/espacio/obtenerProducto?nombre=' + search;
+                axios.get(url).then(function (response) {
+                    let respuesta = response.data;
+                    a: search
+                    me.arrayProducto = respuesta.producto;
+                    // console.log(me.arrayCliente);
+                    loading(false);
+                })
+                .catch(function (error) {
+                    // console.log({error});
+                });
+            },
+            getDatosCliente(val1){
+                let me = this;
+                me.loading = true;
+                if (val1 == null || val1 == ''){
+                    me.ClienteEXIST = '';
+                    me.idcliente = -1;
+                    
+                    
+                }
+                else {
+                    me.idcliente = val1.id;
+                }
+            },
             activarMedida(id){
                Swal.fire({
                 title: 'Desactivar espacio',
@@ -329,6 +528,15 @@
                 }
                 }) 
             },
+            validarStock(){
+                var me =this;
+                me.errorEspacioP=0;
+                me.errorMostrarMsjEspacioP=[];
+                if(!me.stockN||me.stockN<=0) this.errorMostrarMsjEspacioP.push("El stock del producto no puede ser 0 o estar vacío.");
+
+                if(me.errorMostrarMsjEspacioP.length) this.errorEspacioP=1;
+                return this.errorEspacioP;
+            },
             validarEspacio(){
                 this.errorEspacio=0;
                 this.errorMostrarMsjEspacio =[];
@@ -347,6 +555,17 @@
                 this.nombre='';
                 this.direccion='';
                 this.telefono='';
+            },
+            cerrarModalP(){
+                this.modalP=0;
+                this.ClienteEXIST='';
+                this.bandera=0;
+                this.band=0;
+                this.espaciop_id=0;
+                this.producto_id=0;
+                this.stockN=0;
+                this.stock=0;
+                this.arrayProducto=[];
             },
             abrirModal(modelo, accion, data = []){
                 switch(modelo){

@@ -6,9 +6,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Espacio;
 use App\EspacioProducto;
+use App\Producto;
 
 class EspacioController extends Controller
 {
+    public function obtenerProducto(Request $request){
+        // if (!$request->ajax()) return redirect('/');
+
+        $producto = Producto::with('tipo','proveedor','medida')
+                            ->where('nombre','like','%'. $request->nombre . '%')
+                            ->orderBy('nombre','asc')
+                            ->get();
+        return ['producto'=>$producto];
+
+    }
+    public function obtenerStock(Request $request){
+        // if (!$request->ajax()) return redirect('/');
+
+        $espaciop = EspacioProducto::with('producto','espacio')
+                            ->where('idproducto','like',$request->id)
+                            ->get();
+        return ['espacio'=>$espaciop];
+
+    }
+
     public function index(Request $request)
     {
         if (!$request->ajax()) return redirect('/');

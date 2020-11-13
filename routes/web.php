@@ -32,11 +32,13 @@ Route::get('/producto/obtenerTipo', 'ProductoController@obtenerTipo');
 
 // RUTAS DE ESPACIO
 Route::get('/espacio', 'EspacioController@index');
+Route::get('/espacio/obtenerProducto', 'EspacioController@obtenerProducto');
+Route::get('/espacio/obtenerStock', 'EspacioController@obtenerStock');
 Route::post('/espacio/registrar', 'EspacioController@store');
-Route::post('/espacio/registrarProducto', 'EspacioController@storeP');
+Route::post('/espacio/registrarP', 'EspacioController@storeP');
 Route::put('/espacio/actualizar', 'EspacioController@update');
-Route::put('/espacio/actualizarProducto', 'EspacioController@updateP');
-Route::put('/espacio/desactivarProducto', 'EspacioController@desactivarP');
-Route::put('/espacio/activarProducto', 'EspacioController@activarP');
+Route::put('/espacio/actualizarP', 'EspacioController@updateP');
+Route::put('/espacio/desactivarP', 'EspacioController@desactivarP');
+Route::put('/espacio/activarP', 'EspacioController@activarP');
 Route::put('/espacio/desactivar', 'EspacioController@desactivar');
 Route::put('/espacio/activar', 'EspacioController@activar');

@@ -2,7 +2,7 @@
             <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Inicio</li>
+                <li class="breadcrumb-item">Sistema</li>
                 <li class="breadcrumb-item">Inventario</li>
                 <li class="breadcrumb-item active">Artículos</li>
             </ol>
@@ -35,7 +35,7 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Foto</th>
+                                    <!-- <th>Foto</th> -->
                                     <th>Nombre</th>
                                     <th>Alias</th>
                                     <th>Código</th>
@@ -64,9 +64,9 @@
                                             </button>&nbsp;
                                         </template>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <img class="imgProduct" v-bind:src="'/uploads/'+categoria.foto" />
-                                    </td>
+                                    </td> -->
                                     <td v-text="categoria.nombre"></td>
                                     <td v-text="categoria.alias"></td>
                                     <td v-text="categoria.codigo"></td>
@@ -239,51 +239,51 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Producto: '+nombre"></label>
+                                <!-- <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Nombre: </strong>{{nombre}}</label>
                                     
-                                </div>
+                                </div> -->
                                 
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Alias: '+alias"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Alias: </strong>{{alias}}</label>
                                     
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Código: '+codigo"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Código: </strong>{{codigo}}</label>
                                     
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Categoria: '+tipo"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Categoria: </strong>{{tipo}}</label>
                                     
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Descripción: '+descripcion"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Descripción: </strong>{{descripcion}}</label>
                                     
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Precio de compra: '+formatQuetzales(precio_compra)"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Precio de compra: </strong>{{formatQuetzales(precio_compra)}}</label>
                                     
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Precio de venta: '+formatQuetzales(precio_venta)"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Precio de venta: </strong>{{formatQuetzales(precio_venta)}}</label>
                                     
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Precio de mayorista: '+formatQuetzales(precio_mayorista)"></label>
-                                    
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Tipo de medida: '+medida"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Precio mayorista: </strong>{{formatQuetzales(precio_mayorista)}}</label>
                                     
                                 </div>
 
                                 <div class="form-group row">
-                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Nombre del proveedor: '+proveedor"></label>
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Medida: </strong>{{medida}}</label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" ><strong>Proveedor: </strong>{{proveedor}}</label>
                                     
                                 </div>
 
@@ -349,7 +349,7 @@
                     'to' : 0,
                 },
                 offset : 3,
-                criterio : 'medida',
+                criterio : 'nombre',
                 buscar : ''
             }
         },

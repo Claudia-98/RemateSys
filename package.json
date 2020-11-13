@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "text-mask-addons": "^3.8.0",
+        "vue-select": "^3.10.8",
         "vue-text-mask": "^6.1.2"
     }
 }
