@@ -11,8 +11,8 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Tiendas - Espacios
-                        <button type="button" @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
-                            <i class="icon-plus"></i>&nbsp;Nuevo
+                        <button type="button" @click="abrirModal('espacio','registrar')" class="btn btn-secondary">
+                            <i class="icon-plus"></i>&nbsp;
                         </button>
                     </div>
                     <div class="card-body">
@@ -20,11 +20,12 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="medida">Medida</option>
-                                      <!-- <option value="descripcion">Descripción</option> -->
+                                      <option value="direccion">Dirección</option>
+                                      <option value="nombre">Nombre</option>
+                                      <option value="telefono">Teléfono</option>
                                     </select>
-                                    <input type="text" v-model="buscar" @keyup.enter="listarMedida(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listarMedida(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" v-model="buscar" @keyup.enter="listarEspacio(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
+                                    <button type="submit" @click="listarEspacio(1,buscar,criterio)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -32,14 +33,16 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>Medida</th>
+                                    <th>Nombre</th>
+                                    <th>Dirección</th>
+                                    <th>No. Teléfono</th>
                                     <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="categoria in arrayMedida" :key="categoria.id">
+                                <tr v-for="categoria in arrayEspacio" :key="categoria.id">
                                     <td>
-                                        <button type="button" @click="abrirModal('categoria','actualizar',categoria)" class="btn btn-warning btn-sm">
+                                        <button type="button" @click="abrirModal('espacio','actualizar',categoria)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
                                         <template v-if="categoria.estado">
@@ -53,7 +56,9 @@
                                             </button>
                                         </template>
                                     </td>
-                                    <td v-text="categoria.medida"></td>
+                                    <td v-text="categoria.nombre"></td>
+                                    <td v-text="categoria.direccion"></td>
+                                    <td v-text="categoria.telefono"></td>
                                     <td>
                                         <div v-if="categoria.estado">
                                             <span class="badge badge-success">Activo</span>
@@ -96,16 +101,30 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Medida</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="medida" class="form-control" placeholder="Medida">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Nombre de la tienda ó espacio">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Dirección</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección de la tienda ó espacio">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Teléfono</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="telefono" class="form-control" placeholder="Número de teléfono de la tienda ó espacio">
                                         
                                     </div>
                                 </div>
                                 
-                                <div v-show="errorMedida" class="form-group row div-error">
+                                <div v-show="errorEspacio" class="form-group row div-error">
                                     <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjMedida" :key="error" v-text="error">
+                                        <div v-for="error in errorMostrarMsjEspacio" :key="error" v-text="error">
 
                                         </div>
                                     </div>
@@ -131,14 +150,16 @@
     export default {
         data (){
             return {
-                medida_id: 0,
-                medida : '',
-                arrayMedida : [],
+                espacio_id: 0,
+                nombre : '',
+                direccion : '',
+                telefono : '',
+                arrayEspacio : [],
                 modal : 0,
                 tituloModal : '',
                 tipoAccion : 0,
-                errorMedida : 0,
-                errorMostrarMsjMedida : [],
+                errorEspacio : 0,
+                errorMostrarMsjEspacio : [],
                 pagination : {
                     'total' : 0,
                     'current_page' : 0,
@@ -148,7 +169,7 @@
                     'to' : 0,
                 },
                 offset : 3,
-                criterio : 'medida',
+                criterio : 'direccion',
                 buscar : ''
             }
         },
@@ -182,12 +203,12 @@
             }
         },
         methods : {
-            listarMedida (page,buscar,criterio){
+            listarEspacio (page,buscar,criterio){
                 let me=this;
-                var url= '/medida?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
+                var url= '/espacio?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
                 axios.get(url).then(function (response) {
                     var respuesta= response.data;
-                    me.arrayMedida = respuesta.medidas.data;
+                    me.arrayEspacio = respuesta.espacios.data;
                     me.pagination= respuesta.pagination;
                 })
                 .catch(function (error) {
@@ -199,45 +220,49 @@
                 //Actualiza la página actual
                 me.pagination.current_page = page;
                 //Envia la petición para visualizar la data de esa página
-                me.listarMedida(page,buscar,criterio);
+                me.listarEspacio(page,buscar,criterio);
             },
             registrarMedida(){
-                if (this.validarMedida()){
+                if (this.validarEspacio()){
                     return;
                 }
                 
                 let me = this;
 
-                axios.post('/medida/registrar',{
-                    'medida': this.medida
+                axios.post('/espacio/registrar',{
+                    'nombre': this.nombre,
+                    'direccion': this.direccion,
+                    'telefono': this.telefono
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarMedida(1,'','medida');
+                    me.listarEspacio(1,'','direccion');
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
             actualizarMedida(){
-               if (this.validarMedida()){
+               if (this.validarEspacio()){
                     return;
                 }
                 
                 let me = this;
 
-                axios.put('/medida/actualizar',{
-                    'medida': this.medida,
-                    'id': this.medida_id
+                axios.put('/espacio/actualizar',{
+                    'nombre': this.nombre,
+                    'direccion': this.direccion,
+                    'telefono': this.telefono,
+                    'id': this.espacio_id
                 }).then(function (response) {
                     me.cerrarModal();
-                    me.listarMedida(1,'','medida');
+                    me.listarEspacio(1,'','direccion');
                 }).catch(function (error) {
                     console.log(error);
                 }); 
             },
             desactivarMedida(id){
                Swal.fire({
-                title: 'Desactivar categoría',
-                text: "¿Esta seguro de desactivar esta medida?",
+                title: 'Desactivar espacio',
+                text: "¿Esta seguro de desactivar este espacio?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -247,13 +272,13 @@
                 if (result.value) {
                     let me = this;
 
-                    axios.put('/medida/desactivar',{
+                    axios.put('/espacio/desactivar',{
                         'id': id
                     }).then(function (response) {
-                        me.listarMedida(1,'','nombre');
+                        me.listarEspacio(1,'','direccion');
                         Swal.fire(
                         'Desactivado!',
-                        'La medida ha sido desactivada con éxito.',
+                        'El espacio ha sido desactivado con éxito.',
                         'success'
                         )
                     }).catch(function (error) {
@@ -271,8 +296,8 @@
             },
             activarMedida(id){
                Swal.fire({
-                title: 'Desactivar medida',
-                text: "¿Esta seguro de activar esta medida?",
+                title: 'Desactivar espacio',
+                text: "¿Esta seguro de activar este espacio?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -282,13 +307,13 @@
                 if (result.value) {
                     let me = this;
 
-                    axios.put('/medida/activar',{
+                    axios.put('/espacio/activar',{
                         'id': id
                     }).then(function (response) {
-                        me.listarMedida(1,'','nombre');
+                        me.listarEspacio(1,'','direccion');
                         Swal.fire(
                         'Activado!',
-                        'La medida ha sido activada con éxito.',
+                        'El espacio ha sido activado con éxito.',
                         'success'
                         )
                     }).catch(function (error) {
@@ -304,32 +329,37 @@
                 }
                 }) 
             },
-            validarMedida(){
-                this.errorMedida=0;
-                this.errorMostrarMsjMedida =[];
+            validarEspacio(){
+                this.errorEspacio=0;
+                this.errorMostrarMsjEspacio =[];
 
-                if (!this.medida) this.errorMostrarMsjMedida.push("La medida no puede estar vacío.");
+                if (!this.nombre) this.errorMostrarMsjEspacio.push("El nombre del espacio no puede estar vacío.");
+                if (!this.direccion) this.errorMostrarMsjEspacio.push("La dirección del espacio no puede estar vacío.");
+                if (!this.telefono) this.errorMostrarMsjEspacio.push("El número telefónico del espacio no puede estar vacío.");
 
-                if (this.errorMostrarMsjMedida.length) this.errorMedida = 1;
+                if (this.errorMostrarMsjEspacio.length) this.errorEspacio = 1;
 
-                return this.errorMedida;
+                return this.errorEspacio;
             },
             cerrarModal(){
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
-                this.descripcion='';
+                this.direccion='';
+                this.telefono='';
             },
             abrirModal(modelo, accion, data = []){
                 switch(modelo){
-                    case "categoria":
+                    case "espacio":
                     {
                         switch(accion){
                             case 'registrar':
                             {
                                 this.modal = 1;
-                                this.tituloModal = 'Registrar Medida';
-                                this.medida= '';
+                                this.tituloModal = 'Registrar Espacio';
+                                this.nombre= '';
+                                this.direccion= '';
+                                this.telefono= '';
                                 this.tipoAccion = 1;
                                 break;
                             }
@@ -337,10 +367,12 @@
                             {
                                 //console.log(data);
                                 this.modal=1;
-                                this.tituloModal='Actualizar Medida';
+                                this.tituloModal='Actualizar Espacio';
                                 this.tipoAccion=2;
-                                this.medida_id=data['id'];
-                                this.nombre = data['medida'];
+                                this.espacio_id=data['id'];
+                                this.nombre = data['nombre'];
+                                this.direccion = data['direccion'];
+                                this.telefono = data['telefono'];
                                 break;
                             }
                         }
@@ -349,7 +381,7 @@
             }
         },
         mounted() {
-            this.listarMedida(1,this.buscar,this.criterio);
+            this.listarEspacio(1,this.buscar,this.criterio);
         }
     }
 </script>

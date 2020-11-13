@@ -2396,17 +2396,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      medida_id: 0,
-      medida: '',
-      arrayMedida: [],
+      espacio_id: 0,
+      nombre: '',
+      direccion: '',
+      telefono: '',
+      arrayEspacio: [],
       modal: 0,
       tituloModal: '',
       tipoAccion: 0,
-      errorMedida: 0,
-      errorMostrarMsjMedida: [],
+      errorEspacio: 0,
+      errorMostrarMsjEspacio: [],
       pagination: {
         'total': 0,
         'current_page': 0,
@@ -2416,7 +2437,7 @@ __webpack_require__.r(__webpack_exports__);
         'to': 0
       },
       offset: 3,
-      criterio: 'medida',
+      criterio: 'direccion',
       buscar: ''
     };
   },
@@ -2453,12 +2474,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    listarMedida: function listarMedida(page, buscar, criterio) {
+    listarEspacio: function listarEspacio(page, buscar, criterio) {
       var me = this;
-      var url = '/medida?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
+      var url = '/espacio?page=' + page + '&buscar=' + buscar + '&criterio=' + criterio;
       axios.get(url).then(function (response) {
         var respuesta = response.data;
-        me.arrayMedida = respuesta.medidas.data;
+        me.arrayEspacio = respuesta.espacios.data;
         me.pagination = respuesta.pagination;
       })["catch"](function (error) {
         console.log(error);
@@ -2469,35 +2490,39 @@ __webpack_require__.r(__webpack_exports__);
 
       me.pagination.current_page = page; //Envia la petición para visualizar la data de esa página
 
-      me.listarMedida(page, buscar, criterio);
+      me.listarEspacio(page, buscar, criterio);
     },
     registrarMedida: function registrarMedida() {
-      if (this.validarMedida()) {
+      if (this.validarEspacio()) {
         return;
       }
 
       var me = this;
-      axios.post('/medida/registrar', {
-        'medida': this.medida
+      axios.post('/espacio/registrar', {
+        'nombre': this.nombre,
+        'direccion': this.direccion,
+        'telefono': this.telefono
       }).then(function (response) {
         me.cerrarModal();
-        me.listarMedida(1, '', 'medida');
+        me.listarEspacio(1, '', 'direccion');
       })["catch"](function (error) {
         console.log(error);
       });
     },
     actualizarMedida: function actualizarMedida() {
-      if (this.validarMedida()) {
+      if (this.validarEspacio()) {
         return;
       }
 
       var me = this;
-      axios.put('/medida/actualizar', {
-        'medida': this.medida,
-        'id': this.medida_id
+      axios.put('/espacio/actualizar', {
+        'nombre': this.nombre,
+        'direccion': this.direccion,
+        'telefono': this.telefono,
+        'id': this.espacio_id
       }).then(function (response) {
         me.cerrarModal();
-        me.listarMedida(1, '', 'medida');
+        me.listarEspacio(1, '', 'direccion');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2506,8 +2531,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       Swal.fire({
-        title: 'Desactivar categoría',
-        text: "¿Esta seguro de desactivar esta medida?",
+        title: 'Desactivar espacio',
+        text: "¿Esta seguro de desactivar este espacio?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -2516,11 +2541,11 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           var me = _this;
-          axios.put('/medida/desactivar', {
+          axios.put('/espacio/desactivar', {
             'id': id
           }).then(function (response) {
-            me.listarMedida(1, '', 'nombre');
-            Swal.fire('Desactivado!', 'La medida ha sido desactivada con éxito.', 'success');
+            me.listarEspacio(1, '', 'direccion');
+            Swal.fire('Desactivado!', 'El espacio ha sido desactivado con éxito.', 'success');
           })["catch"](function (error) {
             console.log(error);
           });
@@ -2532,8 +2557,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       Swal.fire({
-        title: 'Desactivar medida',
-        text: "¿Esta seguro de activar esta medida?",
+        title: 'Desactivar espacio',
+        text: "¿Esta seguro de activar este espacio?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -2542,11 +2567,11 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         if (result.value) {
           var me = _this2;
-          axios.put('/medida/activar', {
+          axios.put('/espacio/activar', {
             'id': id
           }).then(function (response) {
-            me.listarMedida(1, '', 'nombre');
-            Swal.fire('Activado!', 'La medida ha sido activada con éxito.', 'success');
+            me.listarEspacio(1, '', 'direccion');
+            Swal.fire('Activado!', 'El espacio ha sido activado con éxito.', 'success');
           })["catch"](function (error) {
             console.log(error);
           });
@@ -2554,31 +2579,36 @@ __webpack_require__.r(__webpack_exports__);
         result.dismiss === swal.DismissReason.cancel) {}
       });
     },
-    validarMedida: function validarMedida() {
-      this.errorMedida = 0;
-      this.errorMostrarMsjMedida = [];
-      if (!this.medida) this.errorMostrarMsjMedida.push("La medida no puede estar vacío.");
-      if (this.errorMostrarMsjMedida.length) this.errorMedida = 1;
-      return this.errorMedida;
+    validarEspacio: function validarEspacio() {
+      this.errorEspacio = 0;
+      this.errorMostrarMsjEspacio = [];
+      if (!this.nombre) this.errorMostrarMsjEspacio.push("El nombre del espacio no puede estar vacío.");
+      if (!this.direccion) this.errorMostrarMsjEspacio.push("La dirección del espacio no puede estar vacío.");
+      if (!this.telefono) this.errorMostrarMsjEspacio.push("El número telefónico del espacio no puede estar vacío.");
+      if (this.errorMostrarMsjEspacio.length) this.errorEspacio = 1;
+      return this.errorEspacio;
     },
     cerrarModal: function cerrarModal() {
       this.modal = 0;
       this.tituloModal = '';
       this.nombre = '';
-      this.descripcion = '';
+      this.direccion = '';
+      this.telefono = '';
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
 
       switch (modelo) {
-        case "categoria":
+        case "espacio":
           {
             switch (accion) {
               case 'registrar':
                 {
                   this.modal = 1;
-                  this.tituloModal = 'Registrar Medida';
-                  this.medida = '';
+                  this.tituloModal = 'Registrar Espacio';
+                  this.nombre = '';
+                  this.direccion = '';
+                  this.telefono = '';
                   this.tipoAccion = 1;
                   break;
                 }
@@ -2587,10 +2617,12 @@ __webpack_require__.r(__webpack_exports__);
                 {
                   //console.log(data);
                   this.modal = 1;
-                  this.tituloModal = 'Actualizar Medida';
+                  this.tituloModal = 'Actualizar Espacio';
                   this.tipoAccion = 2;
-                  this.medida_id = data['id'];
-                  this.nombre = data['medida'];
+                  this.espacio_id = data['id'];
+                  this.nombre = data['nombre'];
+                  this.direccion = data['direccion'];
+                  this.telefono = data['telefono'];
                   break;
                 }
             }
@@ -2599,7 +2631,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.listarMedida(1, this.buscar, this.criterio);
+    this.listarEspacio(1, this.buscar, this.criterio);
   }
 });
 
@@ -40061,7 +40093,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Nuevo\n                ")
+              _vm._v(" \n                ")
             ]
           )
         ]),
@@ -40627,13 +40659,13 @@ var render = function() {
               attrs: { type: "button" },
               on: {
                 click: function($event) {
-                  return _vm.abrirModal("categoria", "registrar")
+                  return _vm.abrirModal("espacio", "registrar")
                 }
               }
             },
             [
               _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Nuevo\n                ")
+              _vm._v(" \n                ")
             ]
           )
         ]),
@@ -40671,8 +40703,16 @@ var render = function() {
                     }
                   },
                   [
-                    _c("option", { attrs: { value: "medida" } }, [
-                      _vm._v("Medida")
+                    _c("option", { attrs: { value: "direccion" } }, [
+                      _vm._v("Dirección")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "nombre" } }, [
+                      _vm._v("Nombre")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "telefono" } }, [
+                      _vm._v("Teléfono")
                     ])
                   ]
                 ),
@@ -40697,7 +40737,7 @@ var render = function() {
                       ) {
                         return null
                       }
-                      return _vm.listarMedida(1, _vm.buscar, _vm.criterio)
+                      return _vm.listarEspacio(1, _vm.buscar, _vm.criterio)
                     },
                     input: function($event) {
                       if ($event.target.composing) {
@@ -40715,7 +40755,7 @@ var render = function() {
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
-                        return _vm.listarMedida(1, _vm.buscar, _vm.criterio)
+                        return _vm.listarEspacio(1, _vm.buscar, _vm.criterio)
                       }
                     }
                   },
@@ -40733,7 +40773,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "tbody",
-                _vm._l(_vm.arrayMedida, function(categoria) {
+                _vm._l(_vm.arrayEspacio, function(categoria) {
                   return _c("tr", { key: categoria.id }, [
                     _c(
                       "td",
@@ -40746,7 +40786,7 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 return _vm.abrirModal(
-                                  "categoria",
+                                  "espacio",
                                   "actualizar",
                                   categoria
                                 )
@@ -40792,7 +40832,15 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(categoria.medida) }
+                      domProps: { textContent: _vm._s(categoria.nombre) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(categoria.direccion) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(categoria.telefono) }
                     }),
                     _vm._v(" "),
                     _c("td", [
@@ -40967,7 +41015,7 @@ var render = function() {
                           staticClass: "col-md-3 form-control-label",
                           attrs: { for: "text-input" }
                         },
-                        [_vm._v("Medida")]
+                        [_vm._v("Nombre")]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-9" }, [
@@ -40976,19 +41024,99 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.medida,
-                              expression: "medida"
+                              value: _vm.nombre,
+                              expression: "nombre"
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Medida" },
-                          domProps: { value: _vm.medida },
+                          attrs: {
+                            type: "text",
+                            placeholder: "Nombre de la tienda ó espacio"
+                          },
+                          domProps: { value: _vm.nombre },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.medida = $event.target.value
+                              _vm.nombre = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Dirección")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.direccion,
+                              expression: "direccion"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Dirección de la tienda ó espacio"
+                          },
+                          domProps: { value: _vm.direccion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.direccion = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Teléfono")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.telefono,
+                              expression: "telefono"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder:
+                              "Número de teléfono de la tienda ó espacio"
+                          },
+                          domProps: { value: _vm.telefono },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.telefono = $event.target.value
                             }
                           }
                         })
@@ -41002,8 +41130,8 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.errorMedida,
-                            expression: "errorMedida"
+                            value: _vm.errorEspacio,
+                            expression: "errorEspacio"
                           }
                         ],
                         staticClass: "form-group row div-error"
@@ -41012,7 +41140,7 @@ var render = function() {
                         _c(
                           "div",
                           { staticClass: "text-center text-error" },
-                          _vm._l(_vm.errorMostrarMsjMedida, function(error) {
+                          _vm._l(_vm.errorMostrarMsjEspacio, function(error) {
                             return _c("div", {
                               key: error,
                               domProps: { textContent: _vm._s(error) }
@@ -41099,7 +41227,11 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Opciones")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Medida")]),
+        _c("th", [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Dirección")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("No. Teléfono")]),
         _vm._v(" "),
         _c("th", [_vm._v("Estado")])
       ])
@@ -41148,7 +41280,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Nuevo\n                ")
+              _vm._v(" \n                ")
             ]
           )
         ]),
@@ -41665,7 +41797,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "icon-plus" }),
-              _vm._v(" Nuevo\n                ")
+              _vm._v(" \n                ")
             ]
           )
         ]),
