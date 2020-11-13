@@ -35,7 +35,7 @@
                             <thead>
                                 <tr>
                                     <th>Opciones</th>
-                                    <th>        </th>
+                                    <th>Foto</th>
                                     <th>Nombre</th>
                                     <th>Alias</th>
                                     <th>Código</th>
@@ -50,25 +50,28 @@
                                         <button type="button" @click="abrirModal('categoria','actualizar',categoria)" class="btn btn-warning btn-sm">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
+                                        <button type="button" @click="verProducto(categoria)" class="btn btn-primary btn-sm">
+                                          <i class="icon-eye"></i>
+                                        </button> &nbsp;
                                         <template v-if="categoria.estado">
                                             <button type="button" class="btn btn-danger btn-sm" @click="desactivarMedida(categoria.id)">
                                                 <i class="icon-trash"></i>
-                                            </button>
+                                            </button>&nbsp;
                                         </template>
                                         <template v-else>
                                             <button type="button" class="btn btn-info btn-sm" @click="activarMedida(categoria.id)">
                                                 <i class="icon-check"></i>
-                                            </button>
+                                            </button>&nbsp;
                                         </template>
                                     </td>
                                     <td>
-                                        <img class="imgUser" v-bind:src="'/uploads/'+categoria.foto" />
+                                        <img class="imgProduct" v-bind:src="'/uploads/'+categoria.foto" />
                                     </td>
                                     <td v-text="categoria.nombre"></td>
                                     <td v-text="categoria.alias"></td>
                                     <td v-text="categoria.codigo"></td>
-                                    <td v-text="categoria.precio_venta"></td>
-                                    <td v-text="categoria.precio_mayoreo"></td>
+                                    <td v-text="formatQuetzales(categoria.precio_venta)"></td>
+                                    <td v-text="formatQuetzales(categoria.precio_mayorista)"></td>
                                     <td>
                                         <div v-if="categoria.estado">
                                             <span class="badge badge-success">Activo</span>
@@ -158,7 +161,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Precio mayoreo</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="precio_mayoreo" class="form-control" placeholder="Precio para venta al mayoreo del producto">
+                                        <input type="text" v-model="precio_mayorista" class="form-control" placeholder="Precio para venta al mayoreo del producto">
                                         
                                     </div>
                                 </div>
@@ -222,10 +225,93 @@
                 <!-- /.modal-dialog -->
             </div>
             <!--Fin del modal-->
+
+
+            <!--Inicio del modal ver detalles-->
+            <div class="modal fade" tabindex="-1" :class="{'mostrar' : modalP}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="'Detalle de '+nombre"></h4>
+                            <button type="button" class="close" @click="cerrarModalP()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Producto: '+nombre"></label>
+                                    
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Alias: '+alias"></label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Código: '+codigo"></label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Categoria: '+tipo"></label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Descripción: '+descripcion"></label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Precio de compra: '+formatQuetzales(precio_compra)"></label>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Precio de venta: '+formatQuetzales(precio_venta)"></label>
+                                    
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Precio de mayorista: '+formatQuetzales(precio_mayorista)"></label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Tipo de medida: '+medida"></label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-md-5 form-control-label" for="text-input" v-text="'Nombre del proveedor: '+proveedor"></label>
+                                    
+                                </div>
+
+                                <div class="form-group row">
+                                    <img class="imgProD" v-bind:src="'/uploads/'+foto" />
+                                </div>
+                                
+                            
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModalP()">Cerrar</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--Fin del modal-->
         </main>
 </template>
 
 <script>
+
+    import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+    import MaskedInput from 'vue-text-mask';
+
     export default {
         data (){
             return {
@@ -234,19 +320,22 @@
                 tipo_id:0,
                 medida_id:0,
                 medida : '',
+                proveedor:'',
+                tipo:'',
                 nombre:'',
                 alias:'',
                 codigo:'',
                 foto:'',
                 descripcion:'',
                 precio_venta:0.0,
-                precio_mayoreo:0.0,
+                precio_mayorista:0.0,
                 precio_compra:0.0,
                 arrayProducto : [],
                 arrayTipo:[],
                 arrayPersona:[],
                 arrayMedida:[],
                 modal : 0,
+                modalP : 0,
                 tituloModal : '',
                 tipoAccion : 0,
                 errorProducto : 0,
@@ -306,6 +395,22 @@
                     console.log(error);
                 });
             },
+            formatQuetzales (amount) {
+                var num = parseFloat(amount), formatted
+                formatted =  num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+                return amount = 'Q ' + formatted
+            },
+            converMaskToNumberxd (number) {
+                var myNumber = ''
+                for (var i = 0; i < number.length; i += 1) {
+                if (number.charAt(i) === 'Q' || number.charAt(i) === ',' || number.charAt(i) === ' ') {
+                    continue
+                } else {
+                    myNumber += number.charAt(i)
+                }
+                }
+                return parseFloat(myNumber).toFixed(2)
+            },
             getImage(event) {
                 this.foto = event.target.files[0];
             },
@@ -363,7 +468,7 @@
                     'foto':this.foto,
                     'descripcion':this.descripcion,
                     'precio_venta':this.precio_venta,
-                    'precio_mayorista':this.precio_mayoreo,
+                    'precio_mayorista':this.precio_mayorista,
                     'precio_compra':this.precio_compra,
                     'idpersona':this.persona_id,
                     'idtipo':this.tipo_id,
@@ -390,7 +495,7 @@
                     'codigo':this.codigo,
                     'foto':this.foto,
                     'precio_venta':this.precio_venta,
-                    'precio_mayorista':this.precio_mayoreo,
+                    'precio_mayorista':this.precio_mayorista,
                     'precio_compra':this.precio_compra,
                     'idpersona':this.persona_id,
                     'idtipo':this.tipo_id,
@@ -480,7 +585,7 @@
                 if (!this.alias) this.errorMostrarMsjProducto.push("El alias del artículo no puede estar vacío.");
                 if (!this.codigo) this.errorMostrarMsjProducto.push("El codigo del artículo no puede estar vacío.");
                 if (!this.precio_venta||this.precio_venta<=0) this.errorMostrarMsjProducto.push("El precio de venta del artículo no puede estar vacío o ser menor a 0.");
-                if (!this.precio_mayoreo||this.precio_mayoreo<=0) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
+                if (!this.precio_mayorista||this.precio_mayorista<=0) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
                 if (!this.precio_compra||this.precio_compra<=0) this.errorMostrarMsjProducto.push("El precio de compra del artículo no puede estar vacío o ser menor a 0.");
                 // if (!this.persona_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener un proveedor.");
                 if (!this.medida_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener una medida asignada.");
@@ -494,7 +599,51 @@
                 this.modal=0;
                 this.tituloModal='';
                 this.nombre='';
+                this.producto_id=0;
                 this.descripcion='';
+                this.foto='';
+                this.codigo=0;
+                this.alias='';
+                this.precio_mayorista=0;
+                this.precio_compra=0;
+                this.precio_venta=0;
+                this.persona_id=0;
+                this.medida_id=0;
+                this.tipo_id=0;
+            },
+            cerrarModalP(){
+                this.modalP=0;
+                this.nombre='';
+                this.descripcion='';
+                this.foto='';
+                this.codigo=0;
+                this.alias='';
+                this.precio_mayorista=0;
+                this.precio_compra=0;
+                this.precio_venta=0;
+                this.persona_id=0;
+                this.medida_id=0;
+                this.tipo_id=0;
+            },
+            verProducto(data=[]){
+
+                this.modalP=1;
+                
+                this.nombre= data['nombre'];
+                this.alias=data['alias'];
+                this.codigo=data['codigo'];
+                this.foto=data['foto'];
+                this.descripcion=data['descripcion'];
+                this.precio_venta=data['precio_venta'];
+                this.precio_mayorista=data['precio_mayorista'];
+                this.precio_compra=data['precio_compra'];
+                this.proveedor=data['proveedor']['nombre'];
+                this.medida=data['medida']['medida'];
+                this.tipo=data['tipo']['nombre'];
+                this.persona_id=data['idpersonas'];
+                this.tipo_id=data['idtipo'];
+                this.medida_id=data['idmedida'];
+
             },
             abrirModal(modelo, accion, data = []){
                 switch(modelo){
@@ -511,7 +660,7 @@
                                 this.foto='';
                                 this.descripcion='';
                                 this.precio_venta=0;
-                                this.precio_mayoreo=0;
+                                this.precio_mayorista=0;
                                 this.precio_compra=0;
                                 this.persona_id=0;
                                 this.tipo_id=0;
@@ -535,7 +684,7 @@
                                 this.foto=data['foto'];
                                 this.descripcion=data['descripcion'];
                                 this.precio_venta=data['precio_venta'];
-                                this.precio_mayoreo=data['precio_mayorista'];
+                                this.precio_mayorista=data['precio_mayorista'];
                                 this.precio_compra=data['precio_compra'];
                                 this.persona_id=data['idpersonas'];
                                 this.tipo_id=data['idtipo'];
@@ -570,10 +719,15 @@
         display: flex;
         justify-content: center;
     }
-    .imgUser {
-        width: 100px !important;
-        height: 100px;
+    .imgProduct {
+        width: 80px !important;
+        height: 80px;
         /* border-radius: 150px; */
+        border: 10px rgb(4, 1, 74);
+    }
+    .imgProD {
+        width: 150px !important;
+        height: 150px;
         border: 10px rgb(4, 1, 74);
     }
     .text-error{

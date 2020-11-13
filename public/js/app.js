@@ -2961,6 +2961,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var text_mask_addons_dist_createNumberMask__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! text-mask-addons/dist/createNumberMask */ "./node_modules/text-mask-addons/dist/createNumberMask.js");
+/* harmony import */ var text_mask_addons_dist_createNumberMask__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(text_mask_addons_dist_createNumberMask__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_text_mask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-text-mask */ "./node_modules/vue-text-mask/dist/vueTextMask.js");
+/* harmony import */ var vue_text_mask__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_text_mask__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -3188,6 +3192,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3196,19 +3284,22 @@ __webpack_require__.r(__webpack_exports__);
       tipo_id: 0,
       medida_id: 0,
       medida: '',
+      proveedor: '',
+      tipo: '',
       nombre: '',
       alias: '',
       codigo: '',
       foto: '',
       descripcion: '',
       precio_venta: 0.0,
-      precio_mayoreo: 0.0,
+      precio_mayorista: 0.0,
       precio_compra: 0.0,
       arrayProducto: [],
       arrayTipo: [],
       arrayPersona: [],
       arrayMedida: [],
       modal: 0,
+      modalP: 0,
       tituloModal: '',
       tipoAccion: 0,
       errorProducto: 0,
@@ -3270,6 +3361,25 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
+    formatQuetzales: function formatQuetzales(amount) {
+      var num = parseFloat(amount),
+          formatted;
+      formatted = num.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+      return amount = 'Q ' + formatted;
+    },
+    converMaskToNumberxd: function converMaskToNumberxd(number) {
+      var myNumber = '';
+
+      for (var i = 0; i < number.length; i += 1) {
+        if (number.charAt(i) === 'Q' || number.charAt(i) === ',' || number.charAt(i) === ' ') {
+          continue;
+        } else {
+          myNumber += number.charAt(i);
+        }
+      }
+
+      return parseFloat(myNumber).toFixed(2);
+    },
     getImage: function getImage(event) {
       this.foto = event.target.files[0];
     },
@@ -3320,7 +3430,7 @@ __webpack_require__.r(__webpack_exports__);
         'foto': this.foto,
         'descripcion': this.descripcion,
         'precio_venta': this.precio_venta,
-        'precio_mayorista': this.precio_mayoreo,
+        'precio_mayorista': this.precio_mayorista,
         'precio_compra': this.precio_compra,
         'idpersona': this.persona_id,
         'idtipo': this.tipo_id,
@@ -3346,7 +3456,7 @@ __webpack_require__.r(__webpack_exports__);
         'codigo': this.codigo,
         'foto': this.foto,
         'precio_venta': this.precio_venta,
-        'precio_mayorista': this.precio_mayoreo,
+        'precio_mayorista': this.precio_mayorista,
         'precio_compra': this.precio_compra,
         'idpersona': this.persona_id,
         'idtipo': this.tipo_id,
@@ -3417,7 +3527,7 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.alias) this.errorMostrarMsjProducto.push("El alias del artículo no puede estar vacío.");
       if (!this.codigo) this.errorMostrarMsjProducto.push("El codigo del artículo no puede estar vacío.");
       if (!this.precio_venta || this.precio_venta <= 0) this.errorMostrarMsjProducto.push("El precio de venta del artículo no puede estar vacío o ser menor a 0.");
-      if (!this.precio_mayoreo || this.precio_mayoreo <= 0) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
+      if (!this.precio_mayorista || this.precio_mayorista <= 0) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
       if (!this.precio_compra || this.precio_compra <= 0) this.errorMostrarMsjProducto.push("El precio de compra del artículo no puede estar vacío o ser menor a 0."); // if (!this.persona_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener un proveedor.");
 
       if (!this.medida_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener una medida asignada.");
@@ -3429,7 +3539,49 @@ __webpack_require__.r(__webpack_exports__);
       this.modal = 0;
       this.tituloModal = '';
       this.nombre = '';
+      this.producto_id = 0;
       this.descripcion = '';
+      this.foto = '';
+      this.codigo = 0;
+      this.alias = '';
+      this.precio_mayorista = 0;
+      this.precio_compra = 0;
+      this.precio_venta = 0;
+      this.persona_id = 0;
+      this.medida_id = 0;
+      this.tipo_id = 0;
+    },
+    cerrarModalP: function cerrarModalP() {
+      this.modalP = 0;
+      this.nombre = '';
+      this.descripcion = '';
+      this.foto = '';
+      this.codigo = 0;
+      this.alias = '';
+      this.precio_mayorista = 0;
+      this.precio_compra = 0;
+      this.precio_venta = 0;
+      this.persona_id = 0;
+      this.medida_id = 0;
+      this.tipo_id = 0;
+    },
+    verProducto: function verProducto() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      this.modalP = 1;
+      this.nombre = data['nombre'];
+      this.alias = data['alias'];
+      this.codigo = data['codigo'];
+      this.foto = data['foto'];
+      this.descripcion = data['descripcion'];
+      this.precio_venta = data['precio_venta'];
+      this.precio_mayorista = data['precio_mayorista'];
+      this.precio_compra = data['precio_compra'];
+      this.proveedor = data['proveedor']['nombre'];
+      this.medida = data['medida']['medida'];
+      this.tipo = data['tipo']['nombre'];
+      this.persona_id = data['idpersonas'];
+      this.tipo_id = data['idtipo'];
+      this.medida_id = data['idmedida'];
     },
     abrirModal: function abrirModal(modelo, accion) {
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -3448,7 +3600,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.foto = '';
                   this.descripcion = '';
                   this.precio_venta = 0;
-                  this.precio_mayoreo = 0;
+                  this.precio_mayorista = 0;
                   this.precio_compra = 0;
                   this.persona_id = 0;
                   this.tipo_id = 0;
@@ -3473,7 +3625,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.foto = data['foto'];
                   this.descripcion = data['descripcion'];
                   this.precio_venta = data['precio_venta'];
-                  this.precio_mayoreo = data['precio_mayorista'];
+                  this.precio_mayorista = data['precio_mayorista'];
                   this.precio_compra = data['precio_compra'];
                   this.persona_id = data['idpersonas'];
                   this.tipo_id = data['idtipo'];
@@ -7992,7 +8144,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.imgUser {\n    width: 100px !important;\n    height: 100px;\n    /* border-radius: 150px; */\n    border: 10px rgb(4, 1, 74);\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n    width: 100% !important;\n    position: absolute !important;\n}\n.mostrar{\n    display: list-item !important;\n    opacity: 1 !important;\n    position: absolute !important;\n    background-color: #3c29297a !important;\n}\n.div-error{\n    display: flex;\n    justify-content: center;\n}\n.imgProduct {\n    width: 80px !important;\n    height: 80px;\n    /* border-radius: 150px; */\n    border: 10px rgb(4, 1, 74);\n}\n.imgProD {\n    width: 150px !important;\n    height: 150px;\n    border: 10px rgb(4, 1, 74);\n}\n.text-error{\n    color: red !important;\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
@@ -39787,6 +39939,17 @@ module.exports = function (css) {
 
 /***/ }),
 
+/***/ "./node_modules/text-mask-addons/dist/createNumberMask.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/text-mask-addons/dist/createNumberMask.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){return function(e){function t(n){if(o[n])return o[n].exports;var i=o[n]={exports:{},id:n,loaded:!1};return e[n].call(i.exports,i,i.exports,t),i.loaded=!0,i.exports}var o={};return t.m=e,t.c=o,t.p="",t(0)}([function(e,t,o){e.exports=o(2)},,function(e,t){"use strict";function o(){function e(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:l,t=e.length;if(e===l||e[0]===y[0]&&1===t)return y.split(l).concat([v]).concat(g.split(l));if(e===k&&M)return y.split(l).concat(["0",k,v]).concat(g.split(l));var o=e[0]===s&&q;o&&(e=e.toString().substr(1));var c=e.lastIndexOf(k),u=c!==-1,a=void 0,b=void 0,h=void 0;if(e.slice(T*-1)===g&&(e=e.slice(0,T*-1)),u&&(M||$)?(a=e.slice(e.slice(0,R)===y?R:0,c),b=e.slice(c+1,t),b=n(b.replace(f,l))):a=e.slice(0,R)===y?e.slice(R):e,P&&("undefined"==typeof P?"undefined":r(P))===p){var S="."===j?"[.]":""+j,w=(a.match(new RegExp(S,"g"))||[]).length;a=a.slice(0,P+w*Z)}return a=a.replace(f,l),E||(a=a.replace(/^0+(0$|[^0])/,"$1")),a=x?i(a,j):a,h=n(a),(u&&M||$===!0)&&(e[c-1]!==k&&h.push(m),h.push(k,m),b&&(("undefined"==typeof L?"undefined":r(L))===p&&(b=b.slice(0,L)),h=h.concat(b)),$===!0&&e[c-1]===k&&h.push(v)),R>0&&(h=y.split(l).concat(h)),o&&(h.length===R&&h.push(v),h=[d].concat(h)),g.length>0&&(h=h.concat(g.split(l))),h}var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{},o=t.prefix,y=void 0===o?c:o,b=t.suffix,g=void 0===b?l:b,h=t.includeThousandsSeparator,x=void 0===h||h,S=t.thousandsSeparatorSymbol,j=void 0===S?u:S,w=t.allowDecimal,M=void 0!==w&&w,N=t.decimalSymbol,k=void 0===N?a:N,D=t.decimalLimit,L=void 0===D?2:D,O=t.requireDecimal,$=void 0!==O&&O,_=t.allowNegative,q=void 0!==_&&_,B=t.allowLeadingZeroes,E=void 0!==B&&B,I=t.integerLimit,P=void 0===I?null:I,R=y&&y.length||0,T=g&&g.length||0,Z=j&&j.length||0;return e.instanceOf="createNumberMask",e}function n(e){return e.split(l).map(function(e){return v.test(e)?v:e})}function i(e,t){return e.replace(/\B(?=(\d{3})+(?!\d))/g,t)}Object.defineProperty(t,"__esModule",{value:!0});var r="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};t.default=o;var c="$",l="",u=",",a=".",s="-",d=/-/,f=/\D+/g,p="number",v=/\d/,m="[]"}])});
+
+/***/ }),
+
 /***/ "./node_modules/timers-browserify/main.js":
 /*!************************************************!*\
   !*** ./node_modules/timers-browserify/main.js ***!
@@ -41641,6 +41804,20 @@ var render = function() {
                           [_c("i", { staticClass: "icon-pencil" })]
                         ),
                         _vm._v("  \n                                "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary btn-sm",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.verProducto(categoria)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon-eye" })]
+                        ),
+                        _vm._v("  \n                                "),
                         categoria.estado
                           ? [
                               _c(
@@ -41655,7 +41832,8 @@ var render = function() {
                                   }
                                 },
                                 [_c("i", { staticClass: "icon-trash" })]
-                              )
+                              ),
+                              _vm._v(" \n                                ")
                             ]
                           : [
                               _c(
@@ -41670,7 +41848,8 @@ var render = function() {
                                   }
                                 },
                                 [_c("i", { staticClass: "icon-check" })]
-                              )
+                              ),
+                              _vm._v(" \n                                ")
                             ]
                       ],
                       2
@@ -41678,7 +41857,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [
                       _c("img", {
-                        staticClass: "imgUser",
+                        staticClass: "imgProduct",
                         attrs: { src: "/uploads/" + categoria.foto }
                       })
                     ]),
@@ -41696,12 +41875,18 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(categoria.precio_venta) }
+                      domProps: {
+                        textContent: _vm._s(
+                          _vm.formatQuetzales(categoria.precio_venta)
+                        )
+                      }
                     }),
                     _vm._v(" "),
                     _c("td", {
                       domProps: {
-                        textContent: _vm._s(categoria.precio_mayoreo)
+                        textContent: _vm._s(
+                          _vm.formatQuetzales(categoria.precio_mayorista)
+                        )
                       }
                     }),
                     _vm._v(" "),
@@ -42138,8 +42323,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.precio_mayoreo,
-                              expression: "precio_mayoreo"
+                              value: _vm.precio_mayorista,
+                              expression: "precio_mayorista"
                             }
                           ],
                           staticClass: "form-control",
@@ -42148,13 +42333,13 @@ var render = function() {
                             placeholder:
                               "Precio para venta al mayoreo del producto"
                           },
-                          domProps: { value: _vm.precio_mayoreo },
+                          domProps: { value: _vm.precio_mayorista },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.precio_mayoreo = $event.target.value
+                              _vm.precio_mayorista = $event.target.value
                             }
                           }
                         })
@@ -42429,6 +42614,205 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.modalP },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s("Detalle de " + _vm.nombre) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModalP()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal",
+                    attrs: {
+                      action: "",
+                      method: "post",
+                      enctype: "multipart/form-data"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s("Producto: " + _vm.nombre)
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: { textContent: _vm._s("Alias: " + _vm.alias) }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s("Código: " + _vm.codigo)
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s("Categoria: " + _vm.tipo)
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s("Descripción: " + _vm.descripcion)
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s(
+                            "Precio de compra: " +
+                              _vm.formatQuetzales(_vm.precio_compra)
+                          )
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s(
+                            "Precio de venta: " +
+                              _vm.formatQuetzales(_vm.precio_venta)
+                          )
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s(
+                            "Precio de mayorista: " +
+                              _vm.formatQuetzales(_vm.precio_mayorista)
+                          )
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s("Tipo de medida: " + _vm.medida)
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("label", {
+                        staticClass: "col-md-5 form-control-label",
+                        attrs: { for: "text-input" },
+                        domProps: {
+                          textContent: _vm._s(
+                            "Nombre del proveedor: " + _vm.proveedor
+                          )
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c("img", {
+                        staticClass: "imgProD",
+                        attrs: { src: "/uploads/" + _vm.foto }
+                      })
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModalP()
+                      }
+                    }
+                  },
+                  [_vm._v("Cerrar")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -42453,7 +42837,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Opciones")]),
         _vm._v(" "),
-        _c("th"),
+        _c("th", [_vm._v("Foto")]),
         _vm._v(" "),
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
@@ -42585,6 +42969,17 @@ function normalizeComponent (
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-text-mask/dist/vueTextMask.js":
+/*!********************************************************!*\
+  !*** ./node_modules/vue-text-mask/dist/vueTextMask.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t():undefined}(this,function(){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var r={};return t.m=e,t.c=r,t.p="",t(0)}([function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0}),t.conformToMask=void 0;var o=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},i=r(2);Object.defineProperty(t,"conformToMask",{enumerable:!0,get:function(){return n(i).default}});var a=r(5),u=n(a);t.default={render:function(e){var t=this;return e("input",{ref:"input",domProps:{value:this.value},attrs:this.$attrs,on:Object.assign(o({},this.$listeners),{input:function(e){return t.updateValue(e.target.value)}})})},name:"masked-input",inheritAttrs:!1,props:{value:{type:String,required:!1,default:""},mask:{type:[Array,Function,Boolean,Object],required:!0},guide:{type:Boolean,required:!1},placeholderChar:{type:String,required:!1},keepCharPositions:{type:Boolean,required:!1},pipe:{type:Function,required:!1},showMask:{type:Boolean,required:!1}},mounted:function(){this.initMask()},methods:{createTextMaskInputElement:u.default,setTextMaskInputElement:function(){this.textMaskInputElement=this.createTextMaskInputElement(o({inputElement:this.$refs.input},this.$options.propsData))},initMask:function(){this.setTextMaskInputElement(),this.textMaskInputElement.update(this.value)},bind:function(){this.setTextMaskInputElement(),this.updateValue(this.value)},updateValue:function(e){this.textMaskInputElement.update(e),this.$emit("input",this.$refs.input.value)}},watch:{mask:function(e,t){this.mask!==t&&this.bind()},guide:function(){this.bind()},placeholderChar:function(){this.bind()},keepCharPositions:function(){this.bind()},pipe:function(){this.bind()},showMask:function(){this.bind()}}}},function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.placeholderChar="_",t.strFunction="function"},function(e,t,r){"use strict";function n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:s,t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:u,r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};if(!(0,i.isArray)(t)){if(("undefined"==typeof t?"undefined":o(t))!==a.strFunction)throw new Error("Text-mask:conformToMask; The mask property must be an array.");t=t(e,r),t=(0,i.processCaretTraps)(t).maskWithoutCaretTraps}var n=r.guide,l=void 0===n||n,f=r.previousConformedValue,d=void 0===f?s:f,c=r.placeholderChar,p=void 0===c?a.placeholderChar:c,h=r.placeholder,v=void 0===h?(0,i.convertMaskToPlaceholder)(t,p):h,m=r.currentCaretPosition,y=r.keepCharPositions,g=l===!1&&void 0!==d,b=e.length,k=d.length,C=v.length,x=t.length,P=b-k,M=P>0,T=m+(M?-P:0),O=T+Math.abs(P);if(y===!0&&!M){for(var w=s,S=T;S<O;S++)v[S]===p&&(w+=p);e=e.slice(0,T)+w+e.slice(T,b)}for(var j=e.split(s).map(function(e,t){return{char:e,isNew:t>=T&&t<O}}),V=b-1;V>=0;V--){var E=j[V].char;if(E!==p){var _=V>=T&&k===x;E===v[_?V-P:V]&&j.splice(V,1)}}var A=s,N=!1;e:for(var I=0;I<C;I++){var q=v[I];if(q===p){if(j.length>0)for(;j.length>0;){var F=j.shift(),$=F.char,B=F.isNew;if($===p&&g!==!0){A+=p;continue e}if(t[I].test($)){if(y===!0&&B!==!1&&d!==s&&l!==!1&&M){for(var R=j.length,J=null,W=0;W<R;W++){var L=j[W];if(L.char!==p&&L.isNew===!1)break;if(L.char===p){J=W;break}}null!==J?(A+=$,j.splice(J,1)):I--}else A+=$;continue e}N=!0}g===!1&&(A+=v.substr(I,C));break}A+=q}if(g&&M===!1){for(var D=null,z=0;z<A.length;z++)v[z]===p&&(D=z);A=null!==D?A.substr(0,D+1):s}return{conformedValue:A,meta:{someCharsRejected:N}}}Object.defineProperty(t,"__esModule",{value:!0});var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};t.default=n;var i=r(3),a=r(1),u=[],s=""},function(e,t,r){"use strict";function n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:f,t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:l.placeholderChar;if(!o(e))throw new Error("Text-mask:convertMaskToPlaceholder; The mask property must be an array.");if(e.indexOf(t)!==-1)throw new Error("Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\n"+("The placeholder character that was received is: "+JSON.stringify(t)+"\n\n")+("The mask that was received is: "+JSON.stringify(e)));return e.map(function(e){return e instanceof RegExp?t:e}).join("")}function o(e){return Array.isArray&&Array.isArray(e)||e instanceof Array}function i(e){return"string"==typeof e||e instanceof String}function a(e){return"number"==typeof e&&void 0===e.length&&!isNaN(e)}function u(e){return"undefined"==typeof e||null===e}function s(e){for(var t=[],r=void 0;r=e.indexOf(d),r!==-1;)t.push(r),e.splice(r,1);return{maskWithoutCaretTraps:e,indexes:t}}Object.defineProperty(t,"__esModule",{value:!0}),t.convertMaskToPlaceholder=n,t.isArray=o,t.isString=i,t.isNumber=a,t.isNil=u,t.processCaretTraps=s;var l=r(1),f=[],d="[]"},function(e,t){"use strict";function r(e){var t=e.previousConformedValue,r=void 0===t?o:t,i=e.previousPlaceholder,a=void 0===i?o:i,u=e.currentCaretPosition,s=void 0===u?0:u,l=e.conformedValue,f=e.rawValue,d=e.placeholderChar,c=e.placeholder,p=e.indexesOfPipedChars,h=void 0===p?n:p,v=e.caretTrapIndexes,m=void 0===v?n:v;if(0===s||!f.length)return 0;var y=f.length,g=r.length,b=c.length,k=l.length,C=y-g,x=C>0,P=0===g,M=C>1&&!x&&!P;if(M)return s;var T=x&&(r===l||l===c),O=0,w=void 0,S=void 0;if(T)O=s-C;else{var j=l.toLowerCase(),V=f.toLowerCase(),E=V.substr(0,s).split(o),_=E.filter(function(e){return j.indexOf(e)!==-1});S=_[_.length-1];var A=a.substr(0,_.length).split(o).filter(function(e){return e!==d}).length,N=c.substr(0,_.length).split(o).filter(function(e){return e!==d}).length,I=N!==A,q=void 0!==a[_.length-1]&&void 0!==c[_.length-2]&&a[_.length-1]!==d&&a[_.length-1]!==c[_.length-1]&&a[_.length-1]===c[_.length-2];!x&&(I||q)&&A>0&&c.indexOf(S)>-1&&void 0!==f[s]&&(w=!0,S=f[s]);for(var F=h.map(function(e){return j[e]}),$=F.filter(function(e){return e===S}).length,B=_.filter(function(e){return e===S}).length,R=c.substr(0,c.indexOf(d)).split(o).filter(function(e,t){return e===S&&f[t]!==e}).length,J=R+B+$+(w?1:0),W=0,L=0;L<k;L++){var D=j[L];if(O=L+1,D===S&&W++,W>=J)break}}if(x){for(var z=O,G=O;G<=b;G++)if(c[G]===d&&(z=G),c[G]===d||m.indexOf(G)!==-1||G===b)return z}else if(w){for(var H=O-1;H>=0;H--)if(l[H]===S||m.indexOf(H)!==-1||0===H)return H}else for(var K=O;K>=0;K--)if(c[K-1]===d||m.indexOf(K)!==-1||0===K)return K}Object.defineProperty(t,"__esModule",{value:!0}),t.default=r;var n=[],o=""},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function o(e){var t={previousConformedValue:void 0,previousPlaceholder:void 0};return{state:t,update:function(r){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:e,o=n.inputElement,l=n.mask,d=n.guide,m=n.pipe,g=n.placeholderChar,b=void 0===g?h.placeholderChar:g,k=n.keepCharPositions,C=void 0!==k&&k,x=n.showMask,P=void 0!==x&&x;if("undefined"==typeof r&&(r=o.value),r!==t.previousConformedValue){("undefined"==typeof l?"undefined":s(l))===y&&void 0!==l.pipe&&void 0!==l.mask&&(m=l.pipe,l=l.mask);var M=void 0,T=void 0;if(l instanceof Array&&(M=(0,p.convertMaskToPlaceholder)(l,b)),l!==!1){var O=a(r),w=o.selectionEnd,S=t.previousConformedValue,j=t.previousPlaceholder,V=void 0;if(("undefined"==typeof l?"undefined":s(l))===h.strFunction){if(T=l(O,{currentCaretPosition:w,previousConformedValue:S,placeholderChar:b}),T===!1)return;var E=(0,p.processCaretTraps)(T),_=E.maskWithoutCaretTraps,A=E.indexes;T=_,V=A,M=(0,p.convertMaskToPlaceholder)(T,b)}else T=l;var N={previousConformedValue:S,guide:d,placeholderChar:b,pipe:m,placeholder:M,currentCaretPosition:w,keepCharPositions:C},I=(0,c.default)(O,T,N),q=I.conformedValue,F=("undefined"==typeof m?"undefined":s(m))===h.strFunction,$={};F&&($=m(q,u({rawValue:O},N)),$===!1?$={value:S,rejected:!0}:(0,p.isString)($)&&($={value:$}));var B=F?$.value:q,R=(0,f.default)({previousConformedValue:S,previousPlaceholder:j,conformedValue:B,placeholder:M,rawValue:O,currentCaretPosition:w,placeholderChar:b,indexesOfPipedChars:$.indexesOfPipedChars,caretTrapIndexes:V}),J=B===M&&0===R,W=P?M:v,L=J?W:B;t.previousConformedValue=L,t.previousPlaceholder=M,o.value!==L&&(o.value=L,i(o,R))}}}}}function i(e,t){document.activeElement===e&&(g?b(function(){return e.setSelectionRange(t,t,m)},0):e.setSelectionRange(t,t,m))}function a(e){if((0,p.isString)(e))return e;if((0,p.isNumber)(e))return String(e);if(void 0===e||null===e)return v;throw new Error("The 'value' provided to Text Mask needs to be a string or a number. The value received was:\n\n "+JSON.stringify(e))}Object.defineProperty(t,"__esModule",{value:!0});var u=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},s="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};t.default=o;var l=r(4),f=n(l),d=r(2),c=n(d),p=r(3),h=r(1),v="",m="none",y="object",g="undefined"!=typeof navigator&&/Android/i.test(navigator.userAgent),b="undefined"!=typeof requestAnimationFrame?requestAnimationFrame:setTimeout}])});
 
 /***/ }),
 
