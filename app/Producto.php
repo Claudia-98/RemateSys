@@ -11,12 +11,12 @@ class Producto extends Model
     'precio_compra','idpersonas','idtipo','idmedida','estado'];
 
     public function proveedor(){
-        return $this->hasMany('App\Persona','idpersonas','id');
+        return $this->belongsTo('App\Persona','idpersonas','id');
     }
     public function tipo(){
-        return $this->hasMany('App\Categoria','idtipo','id');
+        return $this->belongsTo('App\Categoria','idtipo','id');
     }
     public function medida(){
-        return $this->hasMany('App\MedidaProducto','idmedida','id');
+        return $this->belongsTo('App\MedidaProducto','idmedida','id');
     }
 }

@@ -2,7 +2,7 @@
             <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Inicio</li>
+                <li class="breadcrumb-item">Sistema</li>
                 <li class="breadcrumb-item">Inventario</li>
                 <li class="breadcrumb-item active">Medidas</li>
             </ol>
@@ -12,7 +12,7 @@
                     <div class="card-header">
                         <i class="fa fa-align-justify"></i> Medidas de productos
                         <button type="button" @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
-                            <i class="icon-plus"></i>&nbsp;Nuevo
+                            <i class="icon-plus"></i>&nbsp;
                         </button>
                     </div>
                     <div class="card-body">

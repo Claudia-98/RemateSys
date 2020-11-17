@@ -1,9 +1,9 @@
 <div class="sidebar">
             <nav class="sidebar-nav">
                 <ul class="nav">
-                    <li @click="menu=0" class="nav-item">
+                    <!-- <li @click="menu=0" class="nav-item">
                         <a class="nav-link active" href="#"><i class="icon-speedometer"></i> Escritorio</a>
-                    </li>
+                    </li> -->
                     <li class="nav-title">
                         Mantenimiento
                     </li>
@@ -20,6 +20,9 @@
                                 <a class="nav-link" href="#"><i class="icon-bag"></i> Artículos</a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" @click="menu=4" href="#"><i class="icon-bag"></i> Tiendas\Espacios</a>
                     </li>
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-wallet"></i> Compras</a>

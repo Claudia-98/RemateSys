@@ -21,6 +21,7 @@ Route::put('/medida/desactivar', 'MedidaProductoController@desactivar');
 Route::put('/medida/activar', 'MedidaProductoController@activar');
 
 // RUTAS DE PRODUCTO
+<<<<<<< HEAD
 
 
 // RUTAS DE PERSONA
@@ -28,3 +29,27 @@ Route::get('/persona', 'PersonaController@index');
 Route::post('/persona/registrar', 'PersonaController@store');
 
 
+=======
+Route::get('/producto', 'ProductoController@index');
+Route::post('/producto/registrar', 'ProductoController@store');
+Route::put('/producto/actualizar', 'ProductoController@update');
+Route::put('/producto/desactivar', 'ProductoController@desactivar');
+Route::put('/producto/activar', 'ProductoController@activar');
+Route::get('/producto/obtenerMedida', 'ProductoController@obtenerMedida');
+Route::get('/producto/obtenerPersona', 'ProductoController@obtenerPersona');
+Route::get('/producto/obtenerTipo', 'ProductoController@obtenerTipo');
+
+// RUTAS DE ESPACIO
+Route::get('/espacio', 'EspacioController@index');
+Route::get('/espacio/obtenerProducto', 'EspacioController@obtenerProducto');
+Route::get('/espacio/obtenerStock', 'EspacioController@obtenerStock');
+Route::get('/espacio/productos', 'EspacioController@obtenerSP');
+Route::post('/espacio/registrar', 'EspacioController@store');
+Route::post('/espacio/registrarP', 'EspacioController@storeP');
+Route::put('/espacio/actualizar', 'EspacioController@update');
+Route::put('/espacio/actualizarP', 'EspacioController@updateP');
+Route::put('/espacio/desactivarP', 'EspacioController@desactivarP');
+Route::put('/espacio/activarP', 'EspacioController@activarP');
+Route::put('/espacio/desactivar', 'EspacioController@desactivar');
+Route::put('/espacio/activar', 'EspacioController@activar');
+>>>>>>> 9259116402eb1002e15ef0dfe0a562e6c892abc1
