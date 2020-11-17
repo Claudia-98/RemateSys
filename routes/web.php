@@ -21,15 +21,6 @@ Route::put('/medida/desactivar', 'MedidaProductoController@desactivar');
 Route::put('/medida/activar', 'MedidaProductoController@activar');
 
 // RUTAS DE PRODUCTO
-<<<<<<< HEAD
-
-
-// RUTAS DE PERSONA
-Route::get('/persona', 'PersonaController@index');
-Route::post('/persona/registrar', 'PersonaController@store');
-
-
-=======
 Route::get('/producto', 'ProductoController@index');
 Route::post('/producto/registrar', 'ProductoController@store');
 Route::put('/producto/actualizar', 'ProductoController@update');
@@ -52,4 +43,8 @@ Route::put('/espacio/desactivarP', 'EspacioController@desactivarP');
 Route::put('/espacio/activarP', 'EspacioController@activarP');
 Route::put('/espacio/desactivar', 'EspacioController@desactivar');
 Route::put('/espacio/activar', 'EspacioController@activar');
->>>>>>> 9259116402eb1002e15ef0dfe0a562e6c892abc1
+
+
+// RUTAS DE PERSONA
+Route::get('/persona', 'PersonaController@index');
+Route::post('/persona/registrar', 'PersonaController@store');
