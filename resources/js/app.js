@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('categoria', require('./components/CategoriaComponent.vue').default);
 Vue.component('medida', require('./components/MedidaProductoComponent.vue').default);
+Vue.component('persona', require('./components/MedidaProductoComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -30,7 +31,7 @@ Vue.component('medida', require('./components/MedidaProductoComponent.vue').defa
 
 const app = new Vue({
     el: '#app',
-    data :{
-        menu : 0
+    data: {
+        menu: 0
     }
 });

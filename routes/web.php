@@ -21,3 +21,10 @@ Route::put('/medida/desactivar', 'MedidaProductoController@desactivar');
 Route::put('/medida/activar', 'MedidaProductoController@activar');
 
 // RUTAS DE PRODUCTO
+
+
+// RUTAS DE PERSONA
+Route::get('/persona', 'PersonaController@index');
+Route::post('/persona/registrar', 'PersonaController@store');
+
+
