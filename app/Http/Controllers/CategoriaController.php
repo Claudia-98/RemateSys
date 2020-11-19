@@ -53,7 +53,8 @@ class CategoriaController extends Controller
         $categoria->nombre = $request->nombre;
         $categoria->descripcion = $request->descripcion;
         $categoria->estado = '1';
-        $categoria->save();
+        $categoria->save(); 
+        
     }
 
     public function desactivar(Request $request)

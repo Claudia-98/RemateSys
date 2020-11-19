@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Persona;
 
 class PersonaController extends Controller
 {
@@ -39,7 +41,42 @@ class PersonaController extends Controller
     {
         if (!$request->ajax()) return redirect('/');
         $persona = new Persona();
-        $persona->persona = $request->persona;
+        $persona->nombre = $request->nombre;
+        $persona->direccion = $request->direccion;
+        $persona->telefono = $request->telefono;
+        $persona->email = $request->email;
+        $persona->idtipo = '1';
+        $persona->estado = '1';
+        $persona->save();
+    }
+
+    public function update(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $persona = Persona::findOrFail($request->id);
+        $persona->nombre = $request->nombre;
+        $persona->direccion = $request->direccion;
+        $persona->telefono = $request->telefono;
+        $persona->email = $request->email;
+        $persona->idtipo = '1';
+        $persona->estado = '1';
+        $persona->save();
+        
+
+    }
+
+    public function desactivar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $persona = Persona::findOrFail($request->id);
+        $persona->estado = '0';
+        $persona->save();
+    }
+
+    public function activar(Request $request)
+    {
+        if (!$request->ajax()) return redirect('/');
+        $persona = Persona ::findOrFail($request->id);
         $persona->estado = '1';
         $persona->save();
     }

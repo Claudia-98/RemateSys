@@ -21,7 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('categoria', require('./components/CategoriaComponent.vue').default);
 Vue.component('medida', require('./components/MedidaProductoComponent.vue').default);
-Vue.component('persona', require('./components/MedidaProductoComponent.vue').default);
+Vue.component('persona', require('./components/PersonaComponent.vue').default);
 Vue.component('producto', require('./components/ProductoComponent.vue').default);
 Vue.component('espacio', require('./components/EspacioComponent.vue').default);
 

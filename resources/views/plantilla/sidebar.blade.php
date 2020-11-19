@@ -31,7 +31,7 @@
                                 <a class="nav-link" href="#"><i class="icon-wallet"></i> Compra de producto</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-notebook"></i> Proveedores</a>
+                                <a class="nav-link" @click="menu=10" href="#"><i class="icon-notebook"></i> Proveedores</a>
                             </li>
                         </ul>
                     </li>

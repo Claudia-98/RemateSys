@@ -48,3 +48,6 @@ Route::put('/espacio/activar', 'EspacioController@activar');
 // RUTAS DE PERSONA
 Route::get('/persona', 'PersonaController@index');
 Route::post('/persona/registrar', 'PersonaController@store');
+Route::put('/persona/actualizar', 'PersonaController@update');
+Route::put('/persona/desactivar', 'PersonaController@desactivar');
+Route::put('/persona/activar', 'PersonaController@activar');

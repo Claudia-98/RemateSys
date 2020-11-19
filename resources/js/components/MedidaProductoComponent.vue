@@ -340,7 +340,7 @@
                                 this.tituloModal='Actualizar Medida';
                                 this.tipoAccion=2;
                                 this.medida_id=data['id'];
-                                this.nombre = data['medida'];
+                                this.medida = data['medida'];
                                 break;
                             }
                         }
