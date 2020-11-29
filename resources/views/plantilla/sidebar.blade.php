@@ -28,7 +28,7 @@
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-wallet"></i> Compras</a>
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-wallet"></i> Compra de producto</a>
+                                <a class="nav-link" @click="menu=11" href="#"><i class="icon-wallet"></i> Compra de producto</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" @click="menu=10" href="#"><i class="icon-notebook"></i> Proveedores</a>

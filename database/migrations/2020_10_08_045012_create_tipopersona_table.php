@@ -20,6 +20,8 @@ class CreateTipopersonaTable extends Migration
             $table->boolean('estado')->default(1);
             $table->timestamps();
         });
+
+        DB::table('tipopersona')->insert(array('id'=>'1', 'nombre'=>'Proveedor','estado'=>'1'));
     }
 
     /**

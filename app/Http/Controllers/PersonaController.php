@@ -45,7 +45,7 @@ class PersonaController extends Controller
         $persona->direccion = $request->direccion;
         $persona->telefono = $request->telefono;
         $persona->email = $request->email;
-        $persona->idtipo = '1';
+        $persona->idtipo = '1'; // temporalmente id 1 es para proveedores
         $persona->estado = '1';
         $persona->save();
     }

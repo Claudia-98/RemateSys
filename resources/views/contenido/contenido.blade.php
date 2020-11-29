@@ -18,4 +18,7 @@
         <template v-if="menu==10">
             <persona></persona>
         </template>
+        <template v-if="menu==11">
+            <compra></compra>
+        </template>
     @endsection

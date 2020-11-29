@@ -20,7 +20,7 @@
                             <div class="col-md-6">
                                 <div class="input-group">
                                     <select class="form-control col-md-3" v-model="criterio">
-                                      <option value="persona">Proveedor</option>
+                                      <option value="nombre">Nombre</option>
                                       <!-- <option value="descripcion">Descripción</option> -->
                                     </select>
                                     <input type="text" v-model="buscar" @keyup.enter="listarPersona(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
@@ -175,7 +175,7 @@
                     'to' : 0,
                 },
                 offset : 3,
-                criterio : 'persona',
+                criterio : 'nombre',
                 buscar : ''
             }
         },

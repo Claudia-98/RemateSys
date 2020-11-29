@@ -27,6 +27,8 @@ class CreateUsersTable extends Migration
 
             $table->rememberToken();
         });
+
+       
     }
 
     /**

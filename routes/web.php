@@ -51,3 +51,11 @@ Route::post('/persona/registrar', 'PersonaController@store');
 Route::put('/persona/actualizar', 'PersonaController@update');
 Route::put('/persona/desactivar', 'PersonaController@desactivar');
 Route::put('/persona/activar', 'PersonaController@activar');
+
+// RUTAS DE COMPRAS
+Route::get('/compra', 'PersonaController@index');
+Route::post('/compra/registrar', 'CompraController@store');
+Route::put('/compra/actualizar', 'CompraController@update');
+Route::put('/compra/desactivar', 'CompraController@desactivar');
+Route::put('/compra/activar', 'CompraController@activar');
+Route::get('/compra/obtenerPersona', 'CompraController@obtenerPersona');
