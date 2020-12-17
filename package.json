@@ -24,8 +24,10 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "moment": "^2.29.1",
         "text-mask-addons": "^3.8.0",
         "vue-select": "^3.10.8",
-        "vue-text-mask": "^6.1.2"
+        "vue-text-mask": "^6.1.2",
+        "vuejs-datepicker": "^1.6.2"
     }
 }

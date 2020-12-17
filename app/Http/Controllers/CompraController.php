@@ -38,8 +38,8 @@ class CompraController extends Controller
     public function obtenerPersona(Request $request){
         if (!$request->ajax()) return redirect('/');
 
-        $persona = Persona::where('estado','=','1')
-                                ->orderBy('id', 'desc')
+        $persona = Persona::where('nombre','like','%'. $request->nombre . '%')
+                                ->orderBy('nombre', 'desc')
                                 ->get();
         return ['persona'=>$persona];
     }
@@ -52,7 +52,7 @@ class CompraController extends Controller
         $compra->observaciones = $request->observaciones;
         $compra->idpersona = $request->idpersona;
         $compra->estado = '1';
-        $compra->idusuario = '5';
+        $compra->idusuario = '1';
         $compra->save();
     }
 
