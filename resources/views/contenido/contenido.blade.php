@@ -15,6 +15,9 @@
         <template v-if="menu==4">
             <espacio></espacio>
         </template>
+        <template v-if="menu==5">
+            <movimiento></movimiento>
+        </template>
         <template v-if="menu==10">
             <persona></persona>
         </template>
