@@ -24,7 +24,7 @@
                         <div class="form-group row m-2">
                           <label class="col-md-3 form-control-label" for="text-input">Fecha</label>
                             <div class="col-md-9">
-                                <datepicker :format="customFormatter" placeholder="Select Date" ></datepicker>
+                                <datepicker :format="customFormatter" placeholder="Seleccione fecha"  v-model="fechavalid"></datepicker>
                             </div>
                          </div>
                     </div>
@@ -94,11 +94,14 @@
     import vSelect from 'vue-select';
     import 'vue-select/dist/vue-select.css';
     import moment from "moment";
+    import {en, es} from 'vuejs-datepicker/dist/locale';
+
     export default {
         data (){
             return {
                 compra_id: 0,
                 fecha: '',
+                fechavalid : '',
                 total: 0,
                 observaciones:'',
                 personaid:0,
@@ -112,6 +115,8 @@
                 errorCompra : 0,
                 idproveedor:0,
                 errorMostrarMsjCompra : [],
+                en: en,
+                es: es,
                 pagination : {
                     'total' : 0,
                     'current_page' : 0,
@@ -164,7 +169,7 @@
 
             customFormatter(date) {
                 this.fecha = moment(date).format('YYYY-MM-DD, h:mm:ss');
-                return this.fecha;
+                return moment(date).format('DD MMM yy');
             },
 
             listarCompra (page,buscar,criterio){
@@ -203,6 +208,8 @@
                    /*  me.cerrarModal();
                     me.listarCompra(1,'','fecha'); */
                     me.fecha = '';
+                    me.fechavalid = '';
+                    me.ProveedorEXIST = '';
                     me.total = 0;
                     me.observaciones = '';
                     me.idpersona = 0;

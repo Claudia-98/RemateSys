@@ -2386,6 +2386,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       compra_id: 0,
       fecha: '',
+      fechavalid: '',
       total: 0,
       observaciones: '',
       personaid: 0,
@@ -2451,7 +2452,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     customFormatter: function customFormatter(date) {
       this.fecha = moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('YYYY-MM-DD, h:mm:ss');
-      return this.fecha;
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('DD MMM yy');
     },
     listarCompra: function listarCompra(page, buscar, criterio) {
       var me = this;
@@ -2486,6 +2487,8 @@ __webpack_require__.r(__webpack_exports__);
         /*  me.cerrarModal();
          me.listarCompra(1,'','fecha'); */
         me.fecha = '';
+        me.fechavalid = '';
+        me.ProveedorEXIST = '';
         me.total = 0;
         me.observaciones = '';
         me.idpersona = 0;
@@ -64269,7 +64272,14 @@ var render = function() {
                     _c("datepicker", {
                       attrs: {
                         format: _vm.customFormatter,
-                        placeholder: "Select Date"
+                        placeholder: "Seleccione fecha"
+                      },
+                      model: {
+                        value: _vm.fechavalid,
+                        callback: function($$v) {
+                          _vm.fechavalid = $$v
+                        },
+                        expression: "fechavalid"
                       }
                     })
                   ],
