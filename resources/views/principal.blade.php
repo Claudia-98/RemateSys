@@ -80,6 +80,7 @@
     
 
     <footer class="app-footer">
+        
         <span >El Remate &trade;</span>
         <span class="ml-auto">ROSHMANE.CORP &copy; 2020</span>
     </footer>

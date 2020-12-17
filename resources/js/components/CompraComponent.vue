@@ -1,92 +1,99 @@
 <template>
-            <main class="main">
+        <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Sistema</li>
                 <li class="breadcrumb-item">Compras</li>
                 <li class="breadcrumb-item active">Registro compra</li>
             </ol>
+            
             <div class="container-fluid">
-                <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-align-justify"></i> Registro compra
-                        <button type="button" @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
-                            <i class="icon-plus"></i>&nbsp;
-                        </button>
+                        <i class="fa fa-align-justify"></i> Registrar compra
+
                     </div>
-                    <div class="card-body">
-                           <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Fecha</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="fecha" class="form-control" placeholder="Fecha">
-                                        
-                                    </div>
-                                </div>
 
-                                 
-                                <div class="form-group row">
+            <div class="card-body">
+               <div class="form-group row border"> 
+
+
+                   <!-- fecha -->
+
+                    <div class="col-md-9">
+                        <div class="form-group row m-2">
+                          <label class="col-md-3 form-control-label" for="text-input">Fecha</label>
+                            <div class="col-md-9">
+                                <datepicker :format="customFormatter" placeholder="Select Date" ></datepicker>
+                            </div>
+                         </div>
+                    </div>
+
+                   <!-- fin fecha -->
+
+                   
+
+                   <!-- proveedor  -->
+                   <div class="col-md-9">
+                          <div class="form-group row m-2">
                                     <label class="col-md-3 form-control-label" for="text-input">Proveedor</label>
-                                    <div class="col-md-9">
-                                        <select id="cargoo" class="form-control" v-model="personaid" >
-                                            <option value="0" disabled>Seleccione</option>
-                                            <option v-for="persona in arrayPersona" :key="persona.id" :value="persona.id" v-text="persona.nombre"></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-
-                                  <div class="form-group row">
-                                    <label class="col-md-3 form-control-label" for="text-input">Observaciones</label>
-                                    <div class="col-md-9">
-                                        <input type="textarea" v-model="observaciones" class="form-control" placeholder="Observaciones">
-                                        
-                                    </div>
-                                </div>
-
-                                
-                                <div v-show="errorCompra" class="form-group row div-error">
-                                    <div class="text-center text-error">
-                                        <div v-for="error in errorMostrarMsjCompra" :key="error" v-text="error">
-
+                                     <div class="col-md-9">
+                                        <div class="form-inline">
+                                            <v-select style="width: 75%"
+                                                ref="buscadorProveedor"
+                                                v-model="ProveedorEXIST"
+                                                @search="selectProveedor"
+                                                label="nombre"
+                                                :options="arrayProveedor"
+                                                placeholder="Buscar proveedor..."
+                                                @input="getDatosProveedor">
+                                                <span slot="no-options">No hay coincidencias con los registros.</span>
+                                            </v-select>
                                         </div>
                                     </div>
+                                    
                                 </div>
+                   </div>
+                   <!-- fin proveedor -->
+                   <!-- observaciones -->
 
-                            </form>
+                    <div class="col-md-9">
+                         <div class="form-group row m-2">
+                                    <label class="col-md-3 form-control-label" for="text-input">Observaciones</label>
+                                <div class="col-md-9">
+                                    <input type="text-area" class="form-control" v-model="observaciones">
+                                </div>
+                         </div>
                     </div>
-                </div>
-                <!-- Fin ejemplo de tabla Listado -->
+
+                   <!-- fin observaciones -->
+                <button type="button"  class="btn btn-primary" @click="registrarCompra()">Guardar</button>
+                
+               </div>   
+
+                
+             <div class="form-group row border"> 
+
+                 <h1>jj</h1>
+             </div>
+       
             </div>
-            <!--Inicio del modal agregar/actualizar-->
-            <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-primary modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" v-text="tituloModal"></h4>
-                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
-                              <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                         
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarCompra()">Guardar</button>
-                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarCompra()">Actualizar</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
+
+           
+
             </div>
-            <!--Fin del modal-->
+
+         
+           
         </main>
 </template>
 
 <script>
+    import Datepicker from 'vuejs-datepicker';
+    import vSelect from 'vue-select';
+    import 'vue-select/dist/vue-select.css';
+    import moment from "moment";
     export default {
         data (){
             return {
@@ -97,10 +104,13 @@
                 personaid:0,
                 arrayCompra : [],
                 arrayPersona:[],
+                arrayProveedor:[],
+                ProveedorEXIST:'',
                 modal : 0,
                 tituloModal : '',
                 tipoAccion : 0,
                 errorCompra : 0,
+                idproveedor:0,
                 errorMostrarMsjCompra : [],
                 pagination : {
                     'total' : 0,
@@ -114,6 +124,11 @@
                 criterio : 'fecha',
                 buscar : ''
             }
+        },
+        components:{
+
+            Datepicker,
+            vSelect
         },
         computed:{
             isActived: function(){
@@ -145,6 +160,13 @@
             }
         },
         methods : {
+
+
+            customFormatter(date) {
+                this.fecha = moment(date).format('YYYY-MM-DD, h:mm:ss');
+                return this.fecha;
+            },
+
             listarCompra (page,buscar,criterio){
                 let me=this;
                 var url= '/compra?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;
@@ -178,8 +200,12 @@
                     'idpersona': this.personaid,
                    
                 }).then(function (response) {
-                    me.cerrarModal();
-                    me.listarCompra(1,'','fecha');
+                   /*  me.cerrarModal();
+                    me.listarCompra(1,'','fecha'); */
+                    me.fecha = '';
+                    me.total = 0;
+                    me.observaciones = '';
+                    me.idpersona = 0;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -284,67 +310,34 @@
 
                 return this.errorCompra;
             },
-              obtenerPersona(){
+            selectProveedor(search, loading){
                 let me = this;
-
-                axios.get('compra/obtenerPersona').then(function (response) {
-                    var respuesta= response.data;
-                    me.arrayPersona = respuesta.persona;
+                loading(true);
+                let url = '/compra/obtenerPersona?nombre=' + search;
+                axios.get(url).then(function (response) {
+                    let respuesta = response.data;
+                    a: search
+                    me.arrayProveedor = respuesta.persona;
+                    // console.log(me.arrayCliente);
+                    loading(false);
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    // console.log({error});
                 });
             },
-            cerrarModal(){
-                this.modal=0;
-                this.tituloModal='';
-                this.fecha = '';
-                this.total = 0;
-                this.observaciones = '';
-                this.personaid =0;
-                    
+            getDatosProveedor(val1){
+                let me = this;
+                me.loading = true;
+                me.personaid = val1.id;
+                
             },
-            abrirModal(modelo, accion, data = []){
-                switch(modelo){
-                    case "categoria":
-                    {
-                        switch(accion){
-                            case 'registrar':
-                            {
-                                this.modal = 1;
-                                this.tituloModal = 'Registrar Proveedor';
-                                this.fecha = '',
-                                this.total = 0,
-                                this.observaciones = ''
-                                this.personaid =0
-                                this.tipoAccion = 1;
-                                this.obtenerPersona();
-                                break;
-                            }
-                            case 'actualizar':
-                            {
-                                //console.log(data);
-                                this.modal=1;
-                                this.tituloModal='Actualizar Proveedor';
-                                this.tipoAccion=2;
-                                this.compra_id=data['id'];
-                                this.fecha = data['fecha'];
-                                this.total = data['total'];
-                                this.observaciones = data['observaciones'];
-                                this.personaid =data['idpersona'];
-                             
 
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
         },
         mounted() {
             this.listarCompra(1,this.buscar,this.criterio);
-        }
+        },
     }
+    
 </script>
 <style>    
     .modal-content{
