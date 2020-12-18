@@ -48,6 +48,7 @@ class PersonaController extends Controller
         $persona->idtipo = '1'; // temporalmente id 1 es para proveedores
         $persona->estado = '1';
         $persona->save();
+        return ['persona'=>$persona];
     }
 
     public function update(Request $request)

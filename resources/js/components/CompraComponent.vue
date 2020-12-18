@@ -42,7 +42,7 @@
                    <div class="col-md-9">
                           <div class="form-group row m-2">
                                     <label class="col-md-3 form-control-label" for="text-input">Proveedor(*)</label>
-                                     <div class="col-md-9">
+                                     <div class="col-md-5">
                                         <div class="form-inline">
                                             <v-select style="width: 75%"
                                                 ref="buscadorProveedor"
@@ -54,10 +54,19 @@
                                                 @input="getDatosProveedor">
                                                 <span slot="no-options">No hay coincidencias con los registros.</span>
                                             </v-select>
+                                            <div class="col-md-1"> 
+                                            <button type="button" @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
+                                             <i class="icon-plus"></i>&nbsp;
+                                            </button>
+                                                
+                                            </div>
+                                        
                                         </div>
+                                        
                                     </div>
                                     
                                 </div>
+                                
                    </div>
                    <!-- fin proveedor -->
                    <!-- observaciones -->
@@ -101,7 +110,71 @@
 
             </div>
 
-         
+         <!--Inicio del modal agregar proveedor-->
+            <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-primary modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-text="tituloModal"></h4>
+                            <button type="button" class="close" @click="cerrarModal()" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="nombre" class="form-control" placeholder="Proveedor">
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Dirección</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="direccion" class="form-control" placeholder="Dirección proveedor">
+                                        
+                                    </div>
+                                </div>
+
+                                  <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Teléfono</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="telefono" class="form-control" placeholder="Teléfono proveedor">
+                                        
+                                    </div>
+                                </div>
+                                
+                                  <div class="form-group row">
+                                    <label class="col-md-3 form-control-label" for="text-input">Correo electrónico</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="email" class="form-control" placeholder="Correo electrónico proveedor">
+                                        
+                                    </div>
+                                </div>
+
+                                
+                                <div v-show="errorPersona" class="form-group row div-error">
+                                    <div class="text-center text-error">
+                                        <div v-for="error in errorMostrarMsjPersona" :key="error" v-text="error">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="cerrarModal()">Cerrar</button>
+                            <button type="button" v-if="tipoAccion==1" class="btn btn-primary" @click="registrarPersona()">Guardar</button>
+                            <button type="button" v-if="tipoAccion==2" class="btn btn-primary" @click="actualizarPersona()">Actualizar</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!--Fin del modal-->
            
         </main>
 </template>
@@ -115,8 +188,6 @@
 
     var state = {
         disabledDates: {
-
-            days: [7, 0], // Desabilita domingos
             from: new Date() // Desabilita fechas futuras
         }
     }
@@ -130,6 +201,14 @@
                 total: 0,
                 observaciones:'',
                 personaid:0,
+                nombre:'',
+                direccion:'',
+                telefono:'',
+                email:'',
+                modal : 0,
+                tituloModal : '',
+                errorPersona : 0,
+                errorMostrarMsjPersona : [],
                 arrayCompra : [],
                 arrayPersona:[],
                 arrayProveedor:[],
@@ -366,6 +445,84 @@
                 me.personaid = val1.id;
                 
             },
+              registrarPersona(){
+                if (this.validarPersona()){
+                    return;
+                }
+                
+                let me = this;
+
+                axios.post('/compra/registrarPersona',{
+                    'nombre': this.nombre,
+                    'direccion': this.direccion,
+                    'telefono': this.telefono,
+                    'email': this.email,
+                   
+                }).then(function (response) {
+                    
+                    me.cerrarModal();
+                    me.cargarProveedor();
+                    
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+             validarPersona(){
+                this.errorPersona=0;
+                this.errorMostrarMsjPersona =[];
+
+                if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre del proveedor no puede estar vacío.");
+                if (!this.direccion) this.errorMostrarMsjPersona.push("La direccion del proveedor no puede estar vacío.");
+                if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
+
+                return this.errorPersona;
+            },
+            cerrarModal(){
+                this.modal=0;
+                this.tituloModal='';
+                this.nombre= '';
+                this.direccion = '';
+                this.telefono= '';
+                this.email= '';
+                
+            },
+            abrirModal(modelo, accion, data = []){
+                switch(modelo){
+                    case "categoria":
+                    {
+                        switch(accion){
+                            case 'registrar':
+                            {
+                                this.modal = 1;
+                                this.tituloModal = 'Registrar Proveedor';
+                                this.nombre= '';
+                                this.direccion = '';
+                                this.telefono= '';
+                                this.email= '';
+                                this.tipoAccion = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+            },
+            cargarProveedor(){
+                let me = this;
+                let url = '/compra/obtenerUltimaPersona';
+               
+                axios.get(url).then(function (response) {
+                    let respuesta = response.data;
+                    me.ProveedorEXIST = respuesta.persona; 
+                    me.personaid = respuesta.persona.id;
+                    console.log(respuesta.persona);
+                    
+                })
+                .catch(function (error) {
+                    // console.log({error});
+                });
+               
+
+            }
 
         },
         mounted() {
