@@ -18,7 +18,7 @@ class CreateCompraTable extends Migration
             $table->dateTime('fecha');;
             $table->boolean('estado')->default(1);
             $table->float('total', 8, 2);
-            $table->text('observaciones', 8, 2);
+            $table->text('observaciones', 8, 2)->nullable();
             
             $table->integer('idpersona')->unsigned();
             $table->foreign('idpersona')->references('id')->on('personas');

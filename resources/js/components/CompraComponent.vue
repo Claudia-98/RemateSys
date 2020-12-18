@@ -22,9 +22,14 @@
 
                     <div class="col-md-9">
                         <div class="form-group row m-2">
-                          <label class="col-md-3 form-control-label" for="text-input">Fecha</label>
+                          <label class="col-md-3 form-control-label" for="text-input">Fecha(*)</label>
                             <div class="col-md-9">
-                                <datepicker :format="customFormatter" placeholder="Seleccione fecha"  v-model="fechavalid"></datepicker>
+                                <datepicker :disabled-dates ="state.disabledDates" 
+                                            :format="customFormatter" 
+                                            :language="es" placeholder="Seleccione fecha"  
+                                            v-model="fechavalid"
+                                
+                                ></datepicker>
                             </div>
                          </div>
                     </div>
@@ -36,7 +41,7 @@
                    <!-- proveedor  -->
                    <div class="col-md-9">
                           <div class="form-group row m-2">
-                                    <label class="col-md-3 form-control-label" for="text-input">Proveedor</label>
+                                    <label class="col-md-3 form-control-label" for="text-input">Proveedor(*)</label>
                                      <div class="col-md-9">
                                         <div class="form-inline">
                                             <v-select style="width: 75%"
@@ -67,15 +72,27 @@
                     </div>
 
                    <!-- fin observaciones -->
+                <div class="col-md-9">
+                 <div v-show="errorCompra" class="form-group row div-error">
+                                    <div class="text-center text-error">
+                                        <div v-for="error in errorMostrarMsjCompra" :key="error" v-text="error">
+
+                                        </div>
+                                    </div>
+                     </div>
+                </div>
                 <button type="button"  class="btn btn-primary" @click="registrarCompra()">Guardar</button>
                 
+
+
                </div>   
 
-                
+           <!--  Inicio detalle compra -->
              <div class="form-group row border"> 
 
-                 <h1>jj</h1>
+                 <h1>DETALLE COMPRA</h1>
              </div>
+             <!-- Fin detalle compra -->
        
             </div>
                 </div>
@@ -96,9 +113,17 @@
     import moment from "moment";
     import {en, es} from 'vuejs-datepicker/dist/locale';
 
+    var state = {
+        disabledDates: {
+
+            days: [7, 0], // Desabilita domingos
+            from: new Date() // Desabilita fechas futuras
+        }
+    }
     export default {
         data (){
             return {
+                state:state,
                 compra_id: 0,
                 fecha: '',
                 fechavalid : '',
@@ -313,6 +338,9 @@
                 this.errorMostrarMsjCompra =[];
 
                 
+                
+                if (!this.fecha) this.errorMostrarMsjCompra.push("La fecha no puede estar vacía.");
+                if (!this.personaid) this.errorMostrarMsjCompra.push("El proveedor no puede estar vacío.");
                 if (this.errorMostrarMsjCompra.length) this.errorCompra = 1;
 
                 return this.errorCompra;

@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "moment": "^2.29.1",
+        "state": "^0.2.0",
         "text-mask-addons": "^3.8.0",
         "vue-select": "^3.10.8",
         "vue-text-mask": "^6.1.2",
