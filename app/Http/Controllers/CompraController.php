@@ -84,4 +84,12 @@ class CompraController extends Controller
         $compra->estado = '1';
         $compra->save();
     }
-}
+
+    public function ultimaPersona(Request $request){
+
+        if (!$request->ajax()) return redirect('/');
+        $persona = Persona:: where('estado',1)
+                    ->orderBy('id','desc')->first();
+        return ['persona'=>$persona];
+    }
+}           

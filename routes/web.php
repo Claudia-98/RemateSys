@@ -55,12 +55,13 @@ Route::put('/persona/desactivar', 'PersonaController@desactivar');
 Route::put('/persona/activar', 'PersonaController@activar');
 
 // RUTAS DE COMPRAS
-Route::get('/compra', 'PersonaController@index');
+Route::get('/compra', 'CompraController@index');
 Route::post('/compra/registrar', 'CompraController@store');
 Route::put('/compra/actualizar', 'CompraController@update');
 Route::put('/compra/desactivar', 'CompraController@desactivar');
 Route::put('/compra/activar', 'CompraController@activar');
 Route::get('/compra/obtenerPersona', 'CompraController@obtenerPersona');
+<<<<<<< HEAD
 
 // RUTAS DE MOVIMIENTOS
 Route::get('/movimiento','MovimientoController@index');
@@ -70,3 +71,7 @@ Route::post('/movimiento/registrar','MovimientoController@store');
 
 // RUTA DE PRUEBAS
 Route::get('/pruebas','PruebasController@store');
+=======
+Route::post('/compra/registrarPersona', 'PersonaController@store');
+Route::get('/compra/obtenerUltimaPersona', 'CompraController@ultimaPersona');
+>>>>>>> d13ea4a0a9384a5558a0e8baa2ead87c357b9248

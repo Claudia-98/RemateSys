@@ -2286,6 +2286,100 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuejs-datepicker/dist/locale */ "./node_modules/vuejs-datepicker/dist/locale/index.js");
+/* harmony import */ var vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_4__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2381,36 +2475,45 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+var state = {
+  disabledDates: {
+    from: new Date() // Desabilita fechas futuras
+
+  }
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    var _ref;
+
+    return _ref = {
+      state: state,
       compra_id: 0,
       fecha: '',
+      fechavalid: '',
       total: 0,
       observaciones: '',
       personaid: 0,
+      nombre: '',
+      direccion: '',
+      telefono: '',
+      email: '',
+      modal: 0,
+      tituloModal: '',
+      errorPersona: 0,
+      errorMostrarMsjPersona: [],
       arrayCompra: [],
       arrayPersona: [],
       arrayProveedor: [],
-      ProveedorEXIST: '',
-      modal: 0,
-      tituloModal: '',
-      tipoAccion: 0,
-      errorCompra: 0,
-      idproveedor: 0,
-      errorMostrarMsjCompra: [],
-      pagination: {
-        'total': 0,
-        'current_page': 0,
-        'per_page': 0,
-        'last_page': 0,
-        'from': 0,
-        'to': 0
-      },
-      offset: 3,
-      criterio: 'fecha',
-      buscar: ''
-    };
+      ProveedorEXIST: ''
+    }, _defineProperty(_ref, "modal", 0), _defineProperty(_ref, "tituloModal", ''), _defineProperty(_ref, "tipoAccion", 0), _defineProperty(_ref, "errorCompra", 0), _defineProperty(_ref, "idproveedor", 0), _defineProperty(_ref, "errorMostrarMsjCompra", []), _defineProperty(_ref, "en", vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_4__["en"]), _defineProperty(_ref, "es", vuejs_datepicker_dist_locale__WEBPACK_IMPORTED_MODULE_4__["es"]), _defineProperty(_ref, "pagination", {
+      'total': 0,
+      'current_page': 0,
+      'per_page': 0,
+      'last_page': 0,
+      'from': 0,
+      'to': 0
+    }), _defineProperty(_ref, "offset", 3), _defineProperty(_ref, "criterio", 'fecha'), _defineProperty(_ref, "buscar", ''), _ref;
   },
   components: {
     Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -2451,7 +2554,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     customFormatter: function customFormatter(date) {
       this.fecha = moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('YYYY-MM-DD, h:mm:ss');
-      return this.fecha;
+      return moment__WEBPACK_IMPORTED_MODULE_3___default()(date).format('DD MMM yy');
     },
     listarCompra: function listarCompra(page, buscar, criterio) {
       var me = this;
@@ -2486,6 +2589,8 @@ __webpack_require__.r(__webpack_exports__);
         /*  me.cerrarModal();
          me.listarCompra(1,'','fecha'); */
         me.fecha = '';
+        me.fechavalid = '';
+        me.ProveedorEXIST = '';
         me.total = 0;
         me.observaciones = '';
         me.idpersona = 0;
@@ -2567,6 +2672,8 @@ __webpack_require__.r(__webpack_exports__);
     validarCompra: function validarCompra() {
       this.errorCompra = 0;
       this.errorMostrarMsjCompra = [];
+      if (!this.fecha) this.errorMostrarMsjCompra.push("La fecha no puede estar vacía.");
+      if (!this.personaid) this.errorMostrarMsjCompra.push("El proveedor no puede estar vacío.");
       if (this.errorMostrarMsjCompra.length) this.errorCompra = 1;
       return this.errorCompra;
     },
@@ -2589,6 +2696,73 @@ __webpack_require__.r(__webpack_exports__);
       var me = this;
       me.loading = true;
       me.personaid = val1.id;
+    },
+    registrarPersona: function registrarPersona() {
+      if (this.validarPersona()) {
+        return;
+      }
+
+      var me = this;
+      axios.post('/compra/registrarPersona', {
+        'nombre': this.nombre,
+        'direccion': this.direccion,
+        'telefono': this.telefono,
+        'email': this.email
+      }).then(function (response) {
+        me.cerrarModal();
+        me.cargarProveedor();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    validarPersona: function validarPersona() {
+      this.errorPersona = 0;
+      this.errorMostrarMsjPersona = [];
+      if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre del proveedor no puede estar vacío.");
+      if (!this.direccion) this.errorMostrarMsjPersona.push("La direccion del proveedor no puede estar vacío.");
+      if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
+      return this.errorPersona;
+    },
+    cerrarModal: function cerrarModal() {
+      this.modal = 0;
+      this.tituloModal = '';
+      this.nombre = '';
+      this.direccion = '';
+      this.telefono = '';
+      this.email = '';
+    },
+    abrirModal: function abrirModal(modelo, accion) {
+      var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+
+      switch (modelo) {
+        case "categoria":
+          {
+            switch (accion) {
+              case 'registrar':
+                {
+                  this.modal = 1;
+                  this.tituloModal = 'Registrar Proveedor';
+                  this.nombre = '';
+                  this.direccion = '';
+                  this.telefono = '';
+                  this.email = '';
+                  this.tipoAccion = 1;
+                  break;
+                }
+            }
+          }
+      }
+    },
+    cargarProveedor: function cargarProveedor() {
+      var me = this;
+      var url = '/compra/obtenerUltimaPersona';
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.ProveedorEXIST = respuesta.persona;
+        me.personaid = respuesta.persona.id;
+        console.log(respuesta.persona);
+      })["catch"](function (error) {// console.log({error});
+      });
     }
   },
   mounted: function mounted() {
@@ -65191,7 +65365,7 @@ var render = function() {
                     staticClass: "col-md-3 form-control-label",
                     attrs: { for: "text-input" }
                   },
-                  [_vm._v("Fecha")]
+                  [_vm._v("Fecha(*)")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -65200,8 +65374,17 @@ var render = function() {
                   [
                     _c("datepicker", {
                       attrs: {
+                        "disabled-dates": _vm.state.disabledDates,
                         format: _vm.customFormatter,
-                        placeholder: "Select Date"
+                        language: _vm.es,
+                        placeholder: "Seleccione fecha"
+                      },
+                      model: {
+                        value: _vm.fechavalid,
+                        callback: function($$v) {
+                          _vm.fechavalid = $$v
+                        },
+                        expression: "fechavalid"
                       }
                     })
                   ],
@@ -65218,10 +65401,10 @@ var render = function() {
                     staticClass: "col-md-3 form-control-label",
                     attrs: { for: "text-input" }
                   },
-                  [_vm._v("Proveedor")]
+                  [_vm._v("Proveedor(*)")]
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-9" }, [
+                _c("div", { staticClass: "col-md-5" }, [
                   _c(
                     "div",
                     { staticClass: "form-inline" },
@@ -65258,7 +65441,26 @@ var render = function() {
                             [_vm._v("No hay coincidencias con los registros.")]
                           )
                         ]
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-1" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-secondary",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.abrirModal("categoria", "registrar")
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "icon-plus" }),
+                            _vm._v(" \n                                    ")
+                          ]
+                        )
+                      ])
                     ],
                     1
                   )
@@ -65303,6 +65505,36 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
+            _c("div", { staticClass: "col-md-9" }, [
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.errorCompra,
+                      expression: "errorCompra"
+                    }
+                  ],
+                  staticClass: "form-group row div-error"
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "text-center text-error" },
+                    _vm._l(_vm.errorMostrarMsjCompra, function(error) {
+                      return _c("div", {
+                        key: error,
+                        domProps: { textContent: _vm._s(error) }
+                      })
+                    }),
+                    0
+                  )
+                ]
+              )
+            ]),
+            _vm._v(" "),
             _c(
               "button",
               {
@@ -65321,7 +65553,299 @@ var render = function() {
           _vm._m(2)
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        class: { mostrar: _vm.modal },
+        staticStyle: { display: "none" },
+        attrs: {
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "myModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-primary modal-lg",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h4", {
+                  staticClass: "modal-title",
+                  domProps: { textContent: _vm._s(_vm.tituloModal) }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: { type: "button", "aria-label": "Close" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c(
+                  "form",
+                  {
+                    staticClass: "form-horizontal",
+                    attrs: {
+                      action: "",
+                      method: "post",
+                      enctype: "multipart/form-data"
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Nombre")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nombre,
+                              expression: "nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text", placeholder: "Proveedor" },
+                          domProps: { value: _vm.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nombre = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Dirección")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.direccion,
+                              expression: "direccion"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Dirección proveedor"
+                          },
+                          domProps: { value: _vm.direccion },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.direccion = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Teléfono")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.telefono,
+                              expression: "telefono"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Teléfono proveedor"
+                          },
+                          domProps: { value: _vm.telefono },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.telefono = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group row" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Correo electrónico")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.email,
+                              expression: "email"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            placeholder: "Correo electrónico proveedor"
+                          },
+                          domProps: { value: _vm.email },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.email = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorPersona,
+                            expression: "errorPersona"
+                          }
+                        ],
+                        staticClass: "form-group row div-error"
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "text-center text-error" },
+                          _vm._l(_vm.errorMostrarMsjPersona, function(error) {
+                            return _c("div", {
+                              key: error,
+                              domProps: { textContent: _vm._s(error) }
+                            })
+                          }),
+                          0
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.cerrarModal()
+                      }
+                    }
+                  },
+                  [_vm._v("Cerrar")]
+                ),
+                _vm._v(" "),
+                _vm.tipoAccion == 1
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.registrarPersona()
+                          }
+                        }
+                      },
+                      [_vm._v("Guardar")]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.tipoAccion == 2
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.actualizarPersona()
+                          }
+                        }
+                      },
+                      [_vm._v("Actualizar")]
+                    )
+                  : _vm._e()
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -65353,7 +65877,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group row border" }, [
-      _c("h1", [_vm._v("jj")])
+      _c("h1", [_vm._v("DETALLE COMPRA")])
     ])
   }
 ]
