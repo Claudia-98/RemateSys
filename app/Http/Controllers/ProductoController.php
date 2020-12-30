@@ -7,11 +7,57 @@ use Illuminate\Support\Facades\DB;
 use App\MedidaProducto;
 use App\Categoria;
 use App\Persona;
+use App\EspacioProducto;
 use App\Producto;
 use Image;
 
 class ProductoController extends Controller
 {
+    public function listarProducto(Request $request){
+        // if (!$request->ajax()) return redirect('/');
+        $busc = $request->buscar;
+        $cri = $request->criterio;
+        // return $cri;
+        if($busc==null){
+            // $producto = Producto::with('tipo','medida','proveedor')->paginate(4);
+            $producto = EspacioProducto::with('producto.medida','espacio')
+                                    ->where('idespacio','like',$request->id)
+                                    ->paginate(4);
+        }
+        else {
+            // $producto = Producto::with('tipo','medida','proveedor')->where($cri,'like',"%{$busc}%")->paginate(4);
+            $producto = EspacioProducto::with('producto.medida','espacio')
+                                    ->where('idespacio','like',$request->id)
+                                    ->where('producto.'+$cri,'like',"%{$busc}%")
+                                    ->paginate(4);
+        }
+        return [
+            'pagination' => [
+                'total'        => $producto->total(),
+                'current_page' => $producto->currentPage(),
+                'per_page'     => $producto->perPage(),
+                'last_page'    => $producto->lastPage(),
+                'from'         => $producto->firstItem(),
+                'to'           => $producto->lastItem(),
+            ],
+            'producto' => $producto
+        ];
+    }
+
+    public function obtenerProducto(Request $request){
+        // if (!$request->ajax()) return redirect('/');
+        // $producto = Producto::where('nombre','=',$request->nombre)->with('tipo','medida','proveedor')
+        //                     ->oRwhere('alias','=',$request->nombre)->get();
+        $buscar=$request->nombre;
+        $producto = EspacioProducto::with(['producto.medida','producto.tipo','producto.proveedor','producto'=>function($acade) use($buscar){
+            $acade->where('nombre', 'like', $buscar);
+        },])->whereHas('producto',function($acade) use($buscar){
+            $acade->where('nombre', 'like', $buscar);
+        })->where('estado','=','1')
+        ->get();
+
+        return ['producto'=>$producto];
+    }
     public function index(Request $request)
     {
         // if (!$request->ajax()) return redirect('/');

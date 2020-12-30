@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Movimiento extends Model
 {
     protected $table = 'movimiento';
-    protected $fillable = ['no_recibo', 'idusuario', 'observaciones','fecha','estado'];
+    protected $fillable = ['no_recibo', 'idusuario', 'idespacio_1', 'idespacio_2', 'observaciones','fecha','estado'];
 
-    // public function espacioproducto(){
-    //     return $this->hasMany('App\EspacioProducto', 'idespacio', 'id');
-    // }
+    public function movimientodetalle(){
+        return $this->hasMany('App\DetalleMovimiento', 'idmovimiento', 'id');
+    }
 }

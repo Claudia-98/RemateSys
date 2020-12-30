@@ -19,6 +19,12 @@ class CreateMovimientoTable extends Migration
             $table->integer('idusuario')->unsigned();
             $table->foreign('idusuario')->references('id')->on('users');
 
+            $table->integer('idespacio_1')->unsigned();
+            $table->foreign('idespacio_1')->references('id')->on('espacio');
+            
+            $table->integer('idespacio_2')->unsigned();
+            $table->foreign('idespacio_2')->references('id')->on('espacio');
+
             $table->integer('no_recibo');
             $table->text('observaciones');
             $table->date('fecha');

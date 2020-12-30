@@ -29,6 +29,8 @@ Route::put('/producto/activar', 'ProductoController@activar');
 Route::get('/producto/obtenerMedida', 'ProductoController@obtenerMedida');
 Route::get('/producto/obtenerPersona', 'ProductoController@obtenerPersona');
 Route::get('/producto/obtenerTipo', 'ProductoController@obtenerTipo');
+Route::get('/producto/obtenerProducto', 'ProductoController@obtenerProducto');
+Route::get('/producto/listarProducto','ProductoController@listarProducto');
 
 // RUTAS DE ESPACIO
 Route::get('/espacio', 'EspacioController@index');
@@ -59,3 +61,12 @@ Route::put('/compra/actualizar', 'CompraController@update');
 Route::put('/compra/desactivar', 'CompraController@desactivar');
 Route::put('/compra/activar', 'CompraController@activar');
 Route::get('/compra/obtenerPersona', 'CompraController@obtenerPersona');
+
+// RUTAS DE MOVIMIENTOS
+Route::get('/movimiento','MovimientoController@index');
+Route::get('/movimiento/obtenerEspacio','MovimientoController@obtenerEspacio');
+Route::get('/movimientos/noRecibo','MovimientoController@obtenerNoRecibo');
+Route::post('/movimiento/registrar','MovimientoController@store');
+
+// RUTA DE PRUEBAS
+Route::get('/pruebas','PruebasController@store');
