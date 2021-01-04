@@ -2471,6 +2471,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2490,6 +2530,7 @@ var state = {
       state: state,
       compra_id: 0,
       fecha: '',
+      bandera_editar: false,
       fechavalid: '',
       total: 0,
       observaciones: '',
@@ -2497,6 +2538,12 @@ var state = {
       nombre: '',
       direccion: '',
       telefono: '',
+      idproducto: 0,
+      arrayProducto: [],
+      producto: '',
+      precio_venta: '',
+      precio_compra: '',
+      precio_mayorista: '',
       email: '',
       modal: 0,
       tituloModal: '',
@@ -2513,7 +2560,7 @@ var state = {
       'last_page': 0,
       'from': 0,
       'to': 0
-    }), _defineProperty(_ref, "offset", 3), _defineProperty(_ref, "criterio", 'fecha'), _defineProperty(_ref, "buscar", ''), _ref;
+    }), _defineProperty(_ref, "offset", 3), _defineProperty(_ref, "criterio", 'fecha'), _defineProperty(_ref, "buscar", ''), _defineProperty(_ref, "codigo", ''), _defineProperty(_ref, "arrayProducto", []), _ref;
   },
   components: {
     Datepicker: vuejs_datepicker__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -2697,6 +2744,27 @@ var state = {
       me.loading = true;
       me.personaid = val1.id;
     },
+    buscarProducto: function buscarProducto() {
+      var me = this;
+      var url = '/compra/buscarProducto?codigo=' + me.codigo;
+      axios.get(url).then(function (response) {
+        var respuesta = response.data;
+        me.arrayProducto = respuesta.productos;
+
+        if (me.arrayProducto.length > 0) {
+          me.producto = me.arrayProducto[0]['nombre'];
+          me.idproducto = me.arrayProducto[0]['id'];
+          me.precio_venta = me.arrayProducto[0]['precio_venta'];
+          me.precio_compra = me.arrayProducto[0]['precio_compra'];
+          me.precio_mayorista = me.arrayProducto[0]['precio_mayorista'];
+        } else {
+          me.producto = 'No existe artículo';
+          me.idproducto = 0;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     registrarPersona: function registrarPersona() {
       if (this.validarPersona()) {
         return;
@@ -2719,7 +2787,7 @@ var state = {
       this.errorPersona = 0;
       this.errorMostrarMsjPersona = [];
       if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre del proveedor no puede estar vacío.");
-      if (!this.direccion) this.errorMostrarMsjPersona.push("La direccion del proveedor no puede estar vacío.");
+      if (!this.direccion) this.errorMostrarMsjPersona.push("La dirección del proveedor no puede estar vacío.");
       if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
       return this.errorPersona;
     },
@@ -65331,7 +65399,7 @@ var render = function() {
                   [_vm._v("Proveedor(*)")]
                 ),
                 _vm._v(" "),
-                _c("div", { staticClass: "col-md-5" }, [
+                _c("div", { staticClass: "col-md-4" }, [
                   _c(
                     "div",
                     { staticClass: "form-inline" },
@@ -65370,7 +65438,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-1" }, [
+                      _c("div", { staticClass: "form-inline col m-1" }, [
                         _c(
                           "button",
                           {
@@ -65477,7 +65545,256 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm._m(2)
+          _c("div", { staticClass: "form-group row border" }, [
+            _c("div", { staticClass: "col-md-4 m-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", [
+                  _vm._v("Producto "),
+                  _c(
+                    "span",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.idproducto == 0,
+                          expression: "idproducto==0"
+                        }
+                      ],
+                      staticStyle: { color: "red" }
+                    },
+                    [_vm._v("(*Seleccione)")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-inline" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.codigo,
+                        expression: "codigo"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Ingrese producto" },
+                    domProps: { value: _vm.codigo },
+                    on: {
+                      keyup: function($event) {
+                        if (
+                          !$event.type.indexOf("key") &&
+                          _vm._k(
+                            $event.keyCode,
+                            "enter",
+                            13,
+                            $event.key,
+                            "Enter"
+                          )
+                        ) {
+                          return null
+                        }
+                        return _vm.buscarProducto()
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.codigo = $event.target.value
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          return _vm.abrirModal()
+                        }
+                      }
+                    },
+                    [_vm._v("...")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.producto,
+                        expression: "producto"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", readonly: "" },
+                    domProps: { value: _vm.producto },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.producto = $event.target.value
+                      }
+                    }
+                  })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2 m-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", [
+                  _vm._v("Precio Compra "),
+                  _c(
+                    "span",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.precio == 0,
+                          expression: "precio==0"
+                        }
+                      ],
+                      staticStyle: { color: "red" }
+                    },
+                    [_vm._v("(*Ingrese)")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.precio_compra,
+                      expression: "precio_compra"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "number", value: "0", step: "any" },
+                  domProps: { value: _vm.precio_compra },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.precio_compra = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2 m-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", [
+                  _vm._v("Precio Venta "),
+                  _c(
+                    "span",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.precio == 0,
+                          expression: "precio==0"
+                        }
+                      ],
+                      staticStyle: { color: "red" }
+                    },
+                    [_vm._v("(*Ingrese)")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.precio_venta,
+                      expression: "precio_venta"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "number", value: "0", step: "any" },
+                  domProps: { value: _vm.precio_venta },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.precio_venta = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2 m-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", [
+                  _vm._v("Precio Mayorista "),
+                  _c(
+                    "span",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.precio == 0,
+                          expression: "precio==0"
+                        }
+                      ],
+                      staticStyle: { color: "red" }
+                    },
+                    [_vm._v("(*Ingrese)")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.precio_mayorista,
+                      expression: "precio_mayorista"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "number", value: "0", step: "any" },
+                  domProps: { value: _vm.precio_mayorista },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.precio_mayorista = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-success form-control btnagregar",
+                    on: {
+                      click: function($event) {
+                        return _vm.agregarDetalle()
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "icon-plus" })]
+                )
+              ])
+            ])
+          ])
         ])
       ])
     ]),
@@ -65797,14 +66114,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("i", { staticClass: "fa fa-align-justify" }),
       _vm._v(" Registrar compra\n\n            ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row border" }, [
-      _c("h1", [_vm._v("DETALLE COMPRA")])
     ])
   }
 ]

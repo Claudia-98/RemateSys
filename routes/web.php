@@ -61,3 +61,5 @@ Route::put('/compra/activar', 'CompraController@activar');
 Route::get('/compra/obtenerPersona', 'CompraController@obtenerPersona');
 Route::post('/compra/registrarPersona', 'PersonaController@store');
 Route::get('/compra/obtenerUltimaPersona', 'CompraController@ultimaPersona');
+Route::get('/compra/buscarProducto', 'CompraController@buscarProducto');
+
