@@ -22,9 +22,6 @@ class CreateDetallemovimientoTable extends Migration
             $table->integer('idproducto')->unsigned();
             $table->foreign('idproducto')->references('id')->on('producto');
 
-            $table->integer('idespacio')->unsigned();
-            $table->foreign('idespacio')->references('id')->on('espacio');
-
             $table->decimal('cantidad',10,2)->nullable();
             $table->boolean('estado')->default(1);
             $table->timestamps();

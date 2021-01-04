@@ -29,6 +29,8 @@ Route::put('/producto/activar', 'ProductoController@activar');
 Route::get('/producto/obtenerMedida', 'ProductoController@obtenerMedida');
 Route::get('/producto/obtenerPersona', 'ProductoController@obtenerPersona');
 Route::get('/producto/obtenerTipo', 'ProductoController@obtenerTipo');
+Route::get('/producto/obtenerProducto', 'ProductoController@obtenerProducto');
+Route::get('/producto/listarProducto','ProductoController@listarProducto');
 
 // RUTAS DE ESPACIO
 Route::get('/espacio', 'EspacioController@index');
@@ -59,7 +61,22 @@ Route::put('/compra/actualizar', 'CompraController@update');
 Route::put('/compra/desactivar', 'CompraController@desactivar');
 Route::put('/compra/activar', 'CompraController@activar');
 Route::get('/compra/obtenerPersona', 'CompraController@obtenerPersona');
+<<<<<<< HEAD
+
+// RUTAS DE MOVIMIENTOS
+Route::get('/movimiento','MovimientoController@index');
+Route::get('/movimiento/obtenerEspacio','MovimientoController@obtenerEspacio');
+Route::get('/movimientos/noRecibo','MovimientoController@obtenerNoRecibo');
+Route::post('/movimiento/registrar','MovimientoController@store');
+
+// RUTA DE PRUEBAS
+Route::get('/pruebas','PruebasController@store');
+=======
 Route::post('/compra/registrarPersona', 'PersonaController@store');
 Route::get('/compra/obtenerUltimaPersona', 'CompraController@ultimaPersona');
+<<<<<<< HEAD
 Route::get('/compra/buscarProducto', 'CompraController@buscarProducto');
 
+=======
+>>>>>>> d13ea4a0a9384a5558a0e8baa2ead87c357b9248
+>>>>>>> 46eb66aa2a30ac7d532b1f8dc298239ae6320e8b
