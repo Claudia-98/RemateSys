@@ -226,4 +226,15 @@ class ProductoController extends Controller
         $producto->estado = '1';
         $producto->save();
     }
+    protected function random_string(){
+        $key = '';
+        $keys = array_merge( range('a','z'), range(0,9) );
+
+        for($i=0; $i<10; $i++)
+        {
+            $key .= $keys[array_rand($keys)];
+        }
+
+        return $key;
+    }
 }

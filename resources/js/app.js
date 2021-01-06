@@ -26,6 +26,8 @@ Vue.component('producto', require('./components/ProductoComponent.vue').default)
 Vue.component('espacio', require('./components/EspacioComponent.vue').default);
 Vue.component('compra', require('./components/CompraComponent.vue').default);
 Vue.component('movimiento', require('./components/MovimientoComponent.vue').default);
+Vue.component('usuario', require('./components/UsuarioComponent.vue').default);
+Vue.component('rol', require('./components/RolComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -13,7 +13,8 @@
     <meta name="csrf-token" contest="{{ csrf_token() }}">
     <!-- Icons -->
     <!-- <link href="css/plantilla.css" rel="stylesheet"> -->
-    <link rel="stylesheet" href="{{ mix('css/plantilla.css') }}">
+    <!-- <link rel="stylesheet" href="{{ mix('css/plantilla.css') }}"> -->
+    <link href="css/plantilla.css" rel="stylesheet">
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
     <div id="app">
@@ -55,22 +56,38 @@
             </li> -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-                    <span class="d-md-down-none">admin </span>
+                    <!-- <img src="img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"> -->
+                    <span class="d-md-down-none">{{Auth::user()->usuario}} </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-header text-center">
                         <strong>Cuenta</strong>
                     </div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Perfil</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Cerrar sesión</a>
+                    <a class="dropdown-item" href="{{ route('logout') }}" 
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <i class="fa fa-lock"></i> Cerrar sesión</a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
                 </div>
             </li>
         </ul>
     </header>
 
     <div class="app-body">
-        @include('plantilla.sidebar')
+    @if(Auth::check())
+            @if (Auth::user()->idrol == 1)
+                @include('plantilla.sidebar')
+            @elseif (Auth::user()->idrol == 2)
+                @include('plantilla.sidebarS')
+            @elseif (Auth::user()->idrol == 3)
+                @include('plantilla.sidebarV')
+            @else
+
+            @endif
+
+        @endif
 
         <!-- Contenido Principal -->
         @yield('contenido')
@@ -85,12 +102,10 @@
         <span class="ml-auto">ROSHMANE.CORP &copy; 2020</span>
     </footer>
 </div>
-    <!-- Bootstrap and necessary plugins -->
-    <!-- <script src="js/plantilla.js"></script> -->
-    <!-- <script src="js/app.js"></script> -->
-    <script src=" {{ mix('js/app.js') }}"></script>
-    <script src="  {{ mix('js/plantilla.js') }}"></script>
-
+    <!-- <script src=" {{ mix('js/app.js') }}"></script>
+    <script src="  {{ mix('js/plantilla.js') }}"></script> -->
+    <script src="js/app.js"></script>
+    <script src="js/plantilla.js"></script>
 
 </body>
 
