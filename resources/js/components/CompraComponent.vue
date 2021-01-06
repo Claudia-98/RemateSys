@@ -37,12 +37,12 @@
                    <!-- fin fecha -->
 
                    
-
+ 
                    <!-- proveedor  -->
                    <div class="col-md-9">
                           <div class="form-group row m-2">
                                     <label class="col-md-3 form-control-label" for="text-input">Proveedor(*)</label>
-                                     <div class="col-md-5">
+                                     <div class="col-md-4">
                                         <div class="form-inline">
                                             <v-select style="width: 75%"
                                                 ref="buscadorProveedor"
@@ -54,7 +54,7 @@
                                                 @input="getDatosProveedor">
                                                 <span slot="no-options">No hay coincidencias con los registros.</span>
                                             </v-select>
-                                            <div class="col-md-1"> 
+                                            <div class="form-inline col m-1"> 
                                             <button type="button" @click="abrirModal('categoria','registrar')" class="btn btn-secondary">
                                              <i class="icon-plus"></i>&nbsp;
                                             </button>
@@ -99,7 +99,47 @@
            <!--  Inicio detalle compra -->
              <div class="form-group row border"> 
 
-                 <h1>DETALLE COMPRA</h1>
+                  <div class="col-md-4 m-2">
+                                <div class="form-group">
+                                    <label>Producto <span style="color:red;" v-show="idproducto==0">(*Seleccione)</span></label>
+                                    <div class="form-inline">
+                                        <input type="text" class="form-control" v-model="codigo" @keyup.enter="buscarProducto()" placeholder="Ingrese producto">
+                                        <button @click="abrirModal()" class="btn btn-primary">...</button>
+                                        <input type="text" readonly class="form-control" v-model="producto"> 
+                                    </div> 
+
+                                                    
+                    </div>
+                 </div>
+
+               
+                 <div class="col-md-2 m-2">
+                                <div class="form-group">
+                                    <label>Precio Compra <span style="color:red;" v-show="precio==0"  >(*Ingrese)</span></label>
+                                    <input  type="number"  value="0" step="any" class="form-control" v-model="precio_compra">
+                                </div>
+                  </div>
+                
+                <div class="col-md-2 m-2">
+                                <div class="form-group">
+                                    <label>Precio Venta <span style="color:red;" v-show="precio==0">(*Ingrese)</span></label>
+                                    <input type="number" value="0" step="any" class="form-control" v-model="precio_venta">
+                                </div>
+                 </div>
+
+                <div class="col-md-2 m-2">
+                                <div class="form-group">
+                                    <label>Precio Mayorista <span style="color:red;" v-show="precio==0">(*Ingrese)</span></label>
+                                    <input type="number" value="0" step="any" class="form-control" v-model="precio_mayorista">
+                                </div>
+                 </div>
+                       
+                 <div class="col-md-2">
+                                <div class="form-group">
+                                    <button @click="agregarDetalle()" class="btn btn-success form-control btnagregar"><i class="icon-plus"></i></button>
+                                </div>
+                            </div>
+                        
              </div>
              <!-- Fin detalle compra -->
        
@@ -197,6 +237,7 @@
                 state:state,
                 compra_id: 0,
                 fecha: '',
+                bandera_editar:false,
                 fechavalid : '',
                 total: 0,
                 observaciones:'',
@@ -204,6 +245,12 @@
                 nombre:'',
                 direccion:'',
                 telefono:'',
+                idproducto:0,
+                arrayProducto:[],
+                producto:'',
+                precio_venta:'',
+                precio_compra:'',
+                precio_mayorista:'',
                 email:'',
                 modal : 0,
                 tituloModal : '',
@@ -231,7 +278,9 @@
                 },
                 offset : 3,
                 criterio : 'fecha',
-                buscar : ''
+                buscar : '',
+                codigo: '',
+                arrayProducto: [],
             }
         },
         components:{
@@ -445,6 +494,36 @@
                 me.personaid = val1.id;
                 
             },
+            buscarProducto (){
+                let me=this;
+                var url= '/compra/buscarProducto?codigo=' + me.codigo;
+
+                axios.get(url).then(function (response) {
+                    var respuesta= response.data;
+                    me.arrayProducto = respuesta.productos;
+
+                    
+                    if (me.arrayProducto.length>0){
+                        me.producto=me.arrayProducto[0]['nombre'];
+                        me.idproducto=me.arrayProducto[0]['id'];
+                        me.precio_venta =me.arrayProducto[0]['precio_venta'];
+                        me.precio_compra = me.arrayProducto[0]['precio_compra'];
+                        me.precio_mayorista = me.arrayProducto[0]['precio_mayorista'];
+                        
+                    }
+                    else{
+                        me.producto='No existe artículo';
+                        me.idproducto=0;
+                    }
+
+                   
+
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
               registrarPersona(){
                 if (this.validarPersona()){
                     return;
@@ -472,7 +551,7 @@
                 this.errorMostrarMsjPersona =[];
 
                 if (!this.nombre) this.errorMostrarMsjPersona.push("El nombre del proveedor no puede estar vacío.");
-                if (!this.direccion) this.errorMostrarMsjPersona.push("La direccion del proveedor no puede estar vacío.");
+                if (!this.direccion) this.errorMostrarMsjPersona.push("La dirección del proveedor no puede estar vacío.");
                 if (this.errorMostrarMsjPersona.length) this.errorPersona = 1;
 
                 return this.errorPersona;

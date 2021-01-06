@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Compra;
 use App\Persona;
+use App\Producto;
 class CompraController extends Controller
 {
     public function index(Request $request)
@@ -92,4 +93,16 @@ class CompraController extends Controller
                     ->orderBy('id','desc')->first();
         return ['persona'=>$persona];
     }
+
+    public function buscarProducto(Request $request){
+
+        if (!$request->ajax()) return redirect('/');
+
+        $productos = Producto::where('codigo','like','%'. $request->codigo . '%')
+                                ->orderBy('nombre', 'desc')
+                                ->get();
+        return ['productos'=>$productos];
+    }
+
+
 }           
