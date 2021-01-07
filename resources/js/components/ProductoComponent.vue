@@ -102,7 +102,7 @@
                 <!-- Fin ejemplo de tabla Listado -->
             </div>
             <!--Inicio del modal agregar/actualizar-->
-            <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal fade" tabindex="-1" :class="{'mostrar' : modal}" role="dialog" aria-labelledby="myModalLabel" style="display: none;overflow: scroll;" aria-hidden="true">
                 <div class="modal-dialog modal-primary modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -132,7 +132,9 @@
                                     <label class="col-md-3 form-control-label" for="text-input">Código</label>
                                     <div class="col-md-9">
                                         <input type="text" v-model="codigo" class="form-control" placeholder="Código del producto">
-                                        
+                                        <button type="button" @click="generarCodigo()" class="btn btn-secondary">
+                                        <i class="icon-plus"></i>&nbsp;
+                                       </button>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -383,6 +385,24 @@
             }
         },
         methods : {
+            generarCodigo(){
+
+                var c1 = Math.round(Math.random()*9);
+                var c2 = Math.round(Math.random()*9);
+                var c3 = Math.round(Math.random()*9);
+                var c4 = Math.round(Math.random()*9);
+                var rand= Math.random()*(91-65)+65;
+                var c5 = String.fromCharCode(rand);
+
+             
+
+                this.codigo = c5.concat(c1,c2,c3,c4);
+
+                console.log(this.codigo);
+                console.log(c1);
+                console.log(c2);
+                console.log(c3);
+            },
             listarProducto (page,buscar,criterio){
                 let me=this;
                 var url= '/producto?page=' + page + '&buscar='+ buscar + '&criterio='+ criterio;

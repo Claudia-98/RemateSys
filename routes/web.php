@@ -56,7 +56,6 @@ Route::group(['middleware'=>['auth']],function(){
         Route::put('/espacio/activar', 'EspacioController@activar');
 
 
-<<<<<<< HEAD
         // RUTAS DE PERSONA
         Route::get('/persona', 'PersonaController@index');
         Route::post('/persona/registrar', 'PersonaController@store');
@@ -97,7 +96,7 @@ Route::group(['middleware'=>['auth']],function(){
 
     // Route::get('/home', 'HomeController@index')->name('home');
 });
-=======
+
 // RUTAS DE CATEGORIAS DE PRODUCTO
 Route::get('/categoria', 'CategoriaController@index');
 Route::post('/categoria/registrar', 'CategoriaController@store');
@@ -153,7 +152,7 @@ Route::put('/compra/actualizar', 'CompraController@update');
 Route::put('/compra/desactivar', 'CompraController@desactivar');
 Route::put('/compra/activar', 'CompraController@activar');
 Route::get('/compra/obtenerPersona', 'CompraController@obtenerPersona');
-<<<<<<< HEAD
+
 
 // RUTAS DE MOVIMIENTOS
 Route::get('/movimiento','MovimientoController@index');
@@ -163,13 +162,6 @@ Route::post('/movimiento/registrar','MovimientoController@store');
 
 // RUTA DE PRUEBAS
 Route::get('/pruebas','PruebasController@store');
-=======
 Route::post('/compra/registrarPersona', 'PersonaController@store');
 Route::get('/compra/obtenerUltimaPersona', 'CompraController@ultimaPersona');
-<<<<<<< HEAD
 Route::get('/compra/buscarProducto', 'CompraController@buscarProducto');
-
-=======
->>>>>>> d13ea4a0a9384a5558a0e8baa2ead87c357b9248
->>>>>>> 46eb66aa2a30ac7d532b1f8dc298239ae6320e8b
->>>>>>> 321bb0f57241ceecb74dee1823130594459e9b30
