@@ -5847,7 +5847,6 @@ __webpack_require__.r(__webpack_exports__);
       this.errorProducto = 0;
       this.errorMostrarMsjProducto = [];
       if (!this.nombre) this.errorMostrarMsjProducto.push("El nombre del artículo no puede estar vacío.");
-      if (!this.alias) this.errorMostrarMsjProducto.push("El alias del artículo no puede estar vacío.");
       if (!this.codigo) this.errorMostrarMsjProducto.push("El codigo del artículo no puede estar vacío.");
       if (!this.precio_venta || this.precio_venta <= 0) this.errorMostrarMsjProducto.push("El precio de venta del artículo no puede estar vacío o ser menor a 0.");
       if (!this.precio_mayorista || this.precio_mayorista <= 0) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
