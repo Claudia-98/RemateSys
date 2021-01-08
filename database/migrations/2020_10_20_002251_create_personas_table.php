@@ -27,6 +27,8 @@ class CreatePersonasTable extends Migration
             $table->boolean('estado')->default(1);
             $table->timestamps();
         });
+
+        DB::table('personas')->insert(array('id'=>'1', 'nombre'=>'usuario', 'direccion'=>'QT', 'telefono'=>'123', 'email'=>'mail', 'idtipo'=>'1', 'estado'=>'1'));
     }
 
     /**

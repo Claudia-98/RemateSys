@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
         });
 
-       
+        DB::table('users')->insert(array('id'=>'1', 'idro'=>'1','usuario'=>'usuario','password'=>'$2y$10$D1ycqVz5Pf9sflroTimTre0rgU7PnYuJmp9Q9tpDtDisz8MxfeBDK','foto'=>'a','estado'=>'1'));
     }
 
     /**
