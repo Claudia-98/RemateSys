@@ -329,9 +329,9 @@
                 codigo:'',
                 foto:'',
                 descripcion:'',
-                precio_venta:0.0,
-                precio_mayorista:0.0,
-                precio_compra:0.0,
+                precio_venta:0,
+                precio_mayorista:0,
+                precio_compra:0,
                 arrayProducto : [],
                 arrayTipo:[],
                 arrayPersona:[],
@@ -602,12 +602,11 @@
                 this.errorMostrarMsjProducto =[];
 
                 if (!this.nombre) this.errorMostrarMsjProducto.push("El nombre del artículo no puede estar vacío.");
-                if (!this.alias) this.errorMostrarMsjProducto.push("El alias del artículo no puede estar vacío.");
                 if (!this.codigo) this.errorMostrarMsjProducto.push("El codigo del artículo no puede estar vacío.");
-                if (!this.precio_venta||this.precio_venta<=0) this.errorMostrarMsjProducto.push("El precio de venta del artículo no puede estar vacío o ser menor a 0.");
-                if (!this.precio_mayorista||this.precio_mayorista<=0) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
-                if (!this.precio_compra||this.precio_compra<=0) this.errorMostrarMsjProducto.push("El precio de compra del artículo no puede estar vacío o ser menor a 0.");
-                // if (!this.persona_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener un proveedor.");
+                /* if (!this.precio_venta||this.precio_venta<0) this.errorMostrarMsjProducto.push("El precio de venta del artículo no puede estar vacío o ser menor a 0.");
+                if (!this.precio_mayorista) this.errorMostrarMsjProducto.push("El precio de mayoreo del artículo no puede estar vacío o ser menor a 0.");
+                if (!this.precio_compra) this.errorMostrarMsjProducto.push("El precio de compra del artículo no puede estar vacío o ser menor a 0.");
+                */ // if (!this.persona_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener un proveedor.");
                 if (!this.medida_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener una medida asignada.");
                 if (!this.tipo_id) this.errorMostrarMsjProducto.push("El artículo tiene que tener una categoria asignada.");
 
