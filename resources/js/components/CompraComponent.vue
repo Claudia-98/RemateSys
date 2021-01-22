@@ -115,21 +115,21 @@
                
                  <div class="col-md-2 m-2">
                                 <div class="form-group">
-                                    <label>Precio Compra <span style="color:red;" v-show="precio==0"  >(*Ingrese)</span></label>
+                                    <label>Precio Compra <span style="color:red;"   >(*Ingrese)</span></label>
                                     <input  type="number"  value="0" step="any" class="form-control" v-model="precio_compra">
                                 </div>
                   </div>
                 
                 <div class="col-md-2 m-2">
                                 <div class="form-group">
-                                    <label>Precio Venta <span style="color:red;" v-show="precio==0">(*Ingrese)</span></label>
+                                    <label>Precio Venta <span style="color:red;" >(*Ingrese)</span></label>
                                     <input type="number" value="0" step="any" class="form-control" v-model="precio_venta">
                                 </div>
                  </div>
 
                 <div class="col-md-2 m-2">
                                 <div class="form-group">
-                                    <label>Precio Mayorista <span style="color:red;" v-show="precio==0">(*Ingrese)</span></label>
+                                    <label>Precio Mayorista <span style="color:red;" >(*Ingrese)</span></label>
                                     <input type="number" value="0" step="any" class="form-control" v-model="precio_mayorista">
                                 </div>
                  </div>

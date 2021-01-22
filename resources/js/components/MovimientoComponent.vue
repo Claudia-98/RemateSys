@@ -134,7 +134,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Observaciones</label>
-                                    <input type="text" class="form-control" v-model="observa">
+                                    <input type="text" class="form-control" v-model="observaciones">
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -438,7 +438,7 @@
                 codigo:0,
                 idcliente:0,
                 idespacioA:0,
-                observa:'',
+                observaciones:'',
                 idespacioB:0,
                 fecha:'',
                 no_recibo:0,

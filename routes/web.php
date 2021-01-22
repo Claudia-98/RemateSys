@@ -70,6 +70,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::put('/compra/desactivar', 'CompraController@desactivar');
         Route::put('/compra/activar', 'CompraController@activar');
         Route::get('/compra/obtenerPersona', 'CompraController@obtenerPersona');
+        Route::get('/compra/buscarProducto', 'CompraController@buscarProducto');
 
         // RUTAS DE MOVIMIENTOS
         Route::get('/movimiento','MovimientoController@index');
